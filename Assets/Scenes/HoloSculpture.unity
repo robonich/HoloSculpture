@@ -349,7 +349,6 @@ GameObject:
   m_Component:
   - component: {fileID: 812709720}
   - component: {fileID: 812709721}
-  - component: {fileID: 812709722}
   m_Layer: 0
   m_Name: BlockCollection
   m_TagString: Untagged
@@ -378,24 +377,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 812709719}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eb34ddfc0765acf46a7efa8ee5716cbc, type: 3}
+  m_Script: {fileID: 11500000, guid: a032d52588af7684999a566f2bb89959, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   JsonFileName: sample2.json
   BlockUnit: {fileID: 1465762091074942, guid: c0e061f616b73e344ad41b309225412c, type: 2}
---- !u!114 &812709722
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 812709719}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0d132c51ad87a724ead4e1c0cd8df2b0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  canUndo: 0
-  canRedo: 0
 --- !u!1 &891822258
 GameObject:
   m_ObjectHideFlags: 0
@@ -675,6 +661,7 @@ Transform:
   - {fileID: 1198442813}
   - {fileID: 1203127918}
   - {fileID: 1898807463}
+  - {fileID: 1325364789}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -904,6 +891,56 @@ Transform:
   m_PrefabParentObject: {fileID: 4546839459429514, guid: e91bcd529d9afeb4d9d347e6aa547ec3,
     type: 2}
   m_PrefabInternal: {fileID: 1203127917}
+--- !u!1 &1325364788
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1325364789}
+  - component: {fileID: 1325364790}
+  m_Layer: 0
+  m_Name: SpeechInputSource
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1325364789
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1325364788}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 987084766}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1325364790
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1325364788}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c62fd7a55ba7458499b69cae18f83806, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PersistentKeywords: 0
+  RecognizerStart: 0
+  Keywords:
+  - Keyword: Undo
+    KeyCode: 0
+  - Keyword: Redo
+    KeyCode: 0
+  - Keyword: Reset
+    KeyCode: 0
+  recognitionConfidenceLevel: 1
 --- !u!1001 &1410349150
 Prefab:
   m_ObjectHideFlags: 0
@@ -1060,6 +1097,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NetworkDiscoveryObject: {fileID: 1898807462}
+--- !u!1 &1693701309
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1693701310}
+  m_Layer: 0
+  m_Name: SculptureModel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1693701310
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1693701309}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.6, y: 0.2, z: 1.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1695425205
 Prefab:
   m_ObjectHideFlags: 0

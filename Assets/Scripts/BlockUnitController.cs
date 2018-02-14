@@ -7,16 +7,14 @@ using UnityEngine.Networking;
 
 public class BlockUnitController : MonoBehaviour, IInputClickHandler {
     public BreakBlockAudioSourceController breakAudio;
-    public GameObject BlockUnit;
     private UndoRedoManager blockHistoryManager;
 
     public void OnInputClicked(InputClickedEventData eventData)
     {
         UnitBlockDestructionCommand destructionCommand = new UnitBlockDestructionCommand(
-            transform.localPosition,
-            transform.localRotation,
+            transform.position,
+            transform.rotation,
             GetComponent<Renderer>().material.color,
-            BlockUnit,
             this.gameObject,
             breakAudio);
 
@@ -26,11 +24,11 @@ public class BlockUnitController : MonoBehaviour, IInputClickHandler {
     private class UnitBlockDestructionCommand : ICommand
     {
         /// <summary>
-        /// 壊されたときの Local position
+        /// 壊されたときの position
         /// </summary>
         private Vector3 positionAtDestruction;
         /// <summary>
-        /// 壊されたときの Local position
+        /// 壊されたときの position
         /// </summary>
         private Quaternion rotationAtDestruction;
         /// <summary>
@@ -38,23 +36,25 @@ public class BlockUnitController : MonoBehaviour, IInputClickHandler {
         /// </summary>
         private Color colorAtDestruction;
         /// <summary>
-        /// Instantiate したい prehab
-        /// </summary>
-        private GameObject BlockUnit;
-        /// <summary>
         /// Destroy したい gameObject
         /// </summary>
         private GameObject gameObject;
         private BreakBlockAudioSourceController breakAudio;
 
-        public UnitBlockDestructionCommand(Vector3 positionAtDestruction, Quaternion rotationAtDestruction, Color colorAtDestruction, GameObject BlockUnit, GameObject gameObject, BreakBlockAudioSourceController breakAudio)
+        /// <summary>
+        /// Instantiate したい prehab
+        /// </summary>
+        private GameObject BlockUnit;
+
+        public UnitBlockDestructionCommand(Vector3 positionAtDestruction, Quaternion rotationAtDestruction, Color colorAtDestruction, GameObject gameObject, BreakBlockAudioSourceController breakAudio)
         {
             this.positionAtDestruction = positionAtDestruction;
             this.rotationAtDestruction = rotationAtDestruction;
             this.colorAtDestruction = colorAtDestruction;
-            this.BlockUnit = BlockUnit;
             this.gameObject = gameObject;
             this.breakAudio = breakAudio;
+            // BlockUnit を BlockUnitController に持たせて、ここに渡すと、BlockUnit が Destroy されると同時に BlockUnit のアドレスも消されてしまって Null参照になってしまったので、そこを解決するために BlockCollectionController という永遠に死なないやつから持ってくることにした
+            this.BlockUnit = BlockCollectionController.Instance.BlockUnit;
         }
 
         public void Do()
@@ -72,7 +72,8 @@ public class BlockUnitController : MonoBehaviour, IInputClickHandler {
 
         public void Undo()
         {
-            GameObject block = (GameObject)Instantiate(BlockUnit, positionAtDestruction, rotationAtDestruction, InitialBlockGeneration.Instance.transform);
+            print("Undo destruction");
+            GameObject block = (GameObject)Instantiate(BlockUnit, positionAtDestruction, rotationAtDestruction, BlockCollectionController.Instance.transform);
             // NetworkServer が active になっていないと spawn されない
             // Todo: あとでそのチェックをすべき
             block.GetComponent<Renderer>().material.SetColor("_Color", colorAtDestruction);
@@ -84,7 +85,7 @@ public class BlockUnitController : MonoBehaviour, IInputClickHandler {
 
     // Use this for initialization
     void Start () {
-        blockHistoryManager = InitialBlockGeneration.Instance.blockHistroyManager;
+        blockHistoryManager = BlockCollectionController.Instance.blockHistoryManager;
     }
 	
 	// Update is called once per frame

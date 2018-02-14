@@ -29,8 +29,8 @@ public interface ICommand
 /// </summary>
 public class UndoRedoManager
 {
-    private Stack<ICommand> undo = new Stack<ICommand>();
-    private Stack<ICommand> redo = new Stack<ICommand>();
+    protected Stack<ICommand> undo = new Stack<ICommand>();
+    protected Stack<ICommand> redo = new Stack<ICommand>();
     private bool canUndo = false;
     private bool canRedo = false;
 
@@ -102,7 +102,7 @@ public class UndoRedoManager
     /// </summary>
     public bool CanUndo
     {
-        private set
+        protected set
         {
             if (this.canUndo != value)
             {
@@ -125,7 +125,7 @@ public class UndoRedoManager
     /// </summary>
     public bool CanRedo
     {
-        private set
+        protected set
         {
             if (this.canRedo != value)
             {

@@ -14,12 +14,12 @@ public class IStartSessionButton : MonoBehaviour, IInputClickHandler
     /// </summary>
     private NetworkDiscoveryWithAnchors networkDiscovery;
 
-    private InitialBlockGeneration blockGeneration;
+    private BlockCollectionController blockGeneration;
 
     private void Start()
     {
         networkDiscovery = NetworkDiscoveryWithAnchors.Instance;
-        blockGeneration = InitialBlockGeneration.Instance;
+        blockGeneration = BlockCollectionController.Instance;
 #if UNITY_WSA && UNITY_2017_2_OR_NEWER
         if (UnityEngine.XR.WSA.HolographicSettings.IsDisplayOpaque && !Application.isEditor)
         {
