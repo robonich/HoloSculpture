@@ -19,6 +19,9 @@ public class ScoreController : Singleton<ScoreController> {
     /// </summary>
     public void InitializeScore()
     {
+        blockCollection = BlockCollectionController.Instance;
+        sculptureModel = SculptureModelController.Instance;
+        print("there are ScoreController instance");
         score = 0;
         for (int i = 0; i < sculptureModel.sculptureMap.Length; i++)
         {
@@ -34,6 +37,7 @@ public class ScoreController : Singleton<ScoreController> {
             }
         }
         scoreText.text = "Score: " + score.ToString();
+        print("There are scoreText");
     }
 
     public void CalcAndChangeScoreAt(Vector3Int position)
