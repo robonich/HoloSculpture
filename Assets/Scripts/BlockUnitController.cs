@@ -8,13 +8,16 @@ using UnityEngine.Networking;
 public class BlockUnitController : MonoBehaviour, IInputClickHandler {
     public BreakBlockAudioSourceController breakAudio;
     private UndoRedoManager blockHistoryManager;
+    public Vector3Int positionInMap = new Vector3Int( 0, 0, 0 );
 
     public void OnInputClicked(InputClickedEventData eventData)
     {
+        print(positionInMap);
         UnitBlockDestructionCommand destructionCommand = new UnitBlockDestructionCommand(
             transform.position,
             transform.rotation,
             GetComponent<Renderer>().material.color,
+            positionInMap,
             this.gameObject,
             breakAudio);
 
@@ -45,16 +48,23 @@ public class BlockUnitController : MonoBehaviour, IInputClickHandler {
         /// Instantiate したい prehab
         /// </summary>
         private GameObject BlockUnit;
+        /// <summary>
+        /// blockCollectionMap の中での座標
+        /// </summary>
+        private Vector3Int positionInMap;
+        private BlockCollectionController blockCollectionController;
 
-        public UnitBlockDestructionCommand(Vector3 positionAtDestruction, Quaternion rotationAtDestruction, Color colorAtDestruction, GameObject gameObject, BreakBlockAudioSourceController breakAudio)
+        public UnitBlockDestructionCommand(Vector3 positionAtDestruction, Quaternion rotationAtDestruction, Color colorAtDestruction, Vector3Int positionInMap, GameObject gameObject, BreakBlockAudioSourceController breakAudio)
         {
             this.positionAtDestruction = positionAtDestruction;
             this.rotationAtDestruction = rotationAtDestruction;
             this.colorAtDestruction = colorAtDestruction;
+            this.positionInMap = positionInMap;
             this.gameObject = gameObject;
             this.breakAudio = breakAudio;
             // BlockUnit を BlockUnitController に持たせて、ここに渡すと、BlockUnit が Destroy されると同時に BlockUnit のアドレスも消されてしまって Null参照になってしまったので、そこを解決するために BlockCollectionController という永遠に死なないやつから持ってくることにした
             this.BlockUnit = BlockCollectionController.Instance.BlockUnit;
+            blockCollectionController = BlockCollectionController.Instance;
         }
 
         public void Do()
@@ -62,6 +72,9 @@ public class BlockUnitController : MonoBehaviour, IInputClickHandler {
             print("Destroy cube");
             Instantiate(breakAudio, this.gameObject.transform.position, this.gameObject.transform.rotation);
             Destroy(this.gameObject);
+            // map を更新する
+            blockCollectionController.blockCollectionMap[positionInMap[0]][positionInMap[1]][positionInMap[2]] = 0;
+            ScoreController.Instance.CalcAndChangeScoreAt(positionInMap);
         }
 
         public void Redo()
@@ -77,9 +90,14 @@ public class BlockUnitController : MonoBehaviour, IInputClickHandler {
             // NetworkServer が active になっていないと spawn されない
             // Todo: あとでそのチェックをすべき
             block.GetComponent<Renderer>().material.SetColor("_Color", colorAtDestruction);
+            // positionInMap の更新をする
+            block.GetComponent<BlockUnitController>().positionInMap = positionInMap;
             NetworkServer.Spawn(block);
             // 新しく生成した block に破壊対象を変更する
             this.gameObject = block;
+            // map を更新する
+            blockCollectionController.blockCollectionMap[positionInMap[0]][positionInMap[1]][positionInMap[2]] = BlockCollectionData.colorToInt[colorAtDestruction];
+            ScoreController.Instance.CalcAndChangeScoreAt(positionInMap);
         }
     }
 

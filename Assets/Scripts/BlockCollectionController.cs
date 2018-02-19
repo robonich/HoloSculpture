@@ -22,13 +22,7 @@ public class BlockCollectionController : Singleton<BlockCollectionController>, I
     public BlockHistoryManager blockHistoryManager;
 
     private BlockCollectionData data;
-    private Dictionary<int, Color> colorDic = new Dictionary<int, Color>() {
-        {1, Color.gray },
-        {2, Color.blue },
-        {3, Color.yellow },
-        {4, Color.red },
-        {5, Color.green }
-    };
+    public int[][][] blockCollectionMap;
 
     public void OnSpeechKeywordRecognized(SpeechEventData eventData)
     {
@@ -44,7 +38,7 @@ public class BlockCollectionController : Singleton<BlockCollectionController>, I
     {
         print("Arrange Blocks");
         Vector3 initialScale = new Vector3(data.initialBlockSize[0], data.initialBlockSize[1], data.initialBlockSize[2]);
-        Vector3 initialPos = new Vector3(data.initialPosition[0], data.initialPosition[1], data.initialPosition[2]) + this.transform.position;
+        Vector3 initialPos = new Vector3(data.initialPosition[0], data.initialPosition[1], data.initialPosition[2]) + this.transform.position - new Vector3(initialScale.x* data.blockArrangement[0][0].Length, 0, 0);
         // Quartenion だからこの方向の定義はいらんかも
         Vector3 initialRot = new Vector3(data.initialRotation[0], data.initialRotation[1], data.initialRotation[2]);
 
@@ -60,21 +54,23 @@ public class BlockCollectionController : Singleton<BlockCollectionController>, I
         float currentZ = initialPos.z;
         Vector3 current = new Vector3(currentX, currentY, currentZ);
 
-        for (int z = 0; z < data.blockArrangement.Length; z++)
+        for (int z = 0; z < blockCollectionMap.Length; z++)
         {
             current.y = initialPos.y;
-            for (int y = 0; y < data.blockArrangement[0].Length; y++)
+            for (int y = 0; y < blockCollectionMap[0].Length; y++)
             {
                 current.x = initialPos.x;
-                for (int x = 0; x < data.blockArrangement[0][0].Length; x++)
+                for (int x = 0; x < blockCollectionMap[0][0].Length; x++)
                 {
 
-                    if (data.blockArrangement[z][y][x] > 0)
+                    if (blockCollectionMap[z][y][x] > 0)
                     {
                         GameObject nextBlock = (GameObject)Instantiate(BlockUnit, current, transform.rotation, this.transform);
                         // NetworkServer が active になっていないと spawn されない
                         // Todo: あとでそのチェックをすべき
-                        nextBlock.GetComponent<Renderer>().material.SetColor("_Color", colorDic[data.blockArrangement[z][y][x]]);
+                        nextBlock.GetComponent<Renderer>().material.SetColor("_Color", BlockCollectionData.colorDic[blockCollectionMap[z][y][x]]);
+                        // positionInMap を更新する
+                        nextBlock.GetComponent<BlockUnitController>().positionInMap = new Vector3Int(z, y, x);
                         NetworkServer.Spawn(nextBlock);
                     }
                     current += deltaX;
@@ -101,6 +97,22 @@ public class BlockCollectionController : Singleton<BlockCollectionController>, I
             if (g.name.Contains("BlockUnit"))
             {
                 DestroyImmediate(g);
+            }
+        }
+        print(this.GetComponentsInChildren<Transform>().Count());
+
+        // blockCollectionMap のリセット
+        for (int i = 0; i < blockCollectionMap.Length; i++)
+        {
+            blockCollectionMap[i] = new int[data.blockArrangement[0].Length][];
+            for (int j = 0; j < blockCollectionMap[0].Length; j++)
+            {
+                blockCollectionMap[i][j] = new int[data.blockArrangement[0][0].Length];
+                for (int k = 0; k < blockCollectionMap[0][0].Length; k++)
+                {
+                    // ここで 0 のところは 1 に置き換える（バウンディングボックスを作るため）
+                    blockCollectionMap[i][j][k] = data.blockArrangement[i][j][k] == 0 ? 1 : data.blockArrangement[i][j][k];
+                }
             }
         }
 
@@ -138,6 +150,22 @@ public class BlockCollectionController : Singleton<BlockCollectionController>, I
 
         string json = File.ReadAllText(jsonFilePath);
         data = JsonConvert.DeserializeObject<BlockCollectionData>(json);
+
+        // blockCollectionMap へのコピー
+        blockCollectionMap = new int[data.blockArrangement.Length][][];
+        for (int i = 0; i < blockCollectionMap.Length; i++)
+        {
+            blockCollectionMap[i] = new int[data.blockArrangement[0].Length][];
+            for (int j = 0; j < blockCollectionMap[0].Length; j++)
+            {
+                blockCollectionMap[i][j] = new int[data.blockArrangement[0][0].Length];
+                for (int k = 0; k < blockCollectionMap[0][0].Length; k++)
+                {
+                    // ここで 0 のところは 1 に置き換える（バウンディングボックスを作るため）
+                    blockCollectionMap[i][j][k] = data.blockArrangement[i][j][k] == 0 ? 1 : data.blockArrangement[i][j][k];
+                }
+            }
+        }
 
         // ここでつくることですべての場所で共通のManagerとなる
         blockHistoryManager = new BlockHistoryManager();
