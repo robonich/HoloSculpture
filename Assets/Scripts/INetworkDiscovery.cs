@@ -101,13 +101,16 @@ public class INetworkDiscovery : NetworkDiscovery
     /// <returns>true if we have what we need, false otherwise.</returns>
     private bool CheckComponents()
     {
-#if !UNITY_EDITOR && UNITY_WSA
-        if (GenericNetworkTransmitter.Instance == null)
-        {
-            Debug.Log("Need a UNetNetworkTransmitter in the scene for sending anchor data");
-            return false;
-        }
-#endif
+        // ここから
+        // GenericTransmitter が anchor 用ならいらないよね
+//#if !UNITY_EDITOR && UNITY_WSA
+//        if (GenericNetworkTransmitter.Instance == null)
+//        {
+//            Debug.Log("Need a UNetNetworkTransmitter in the scene for sending anchor data");
+//            return false;
+//        }
+//#endif
+        // ここまで
         if (NetworkManager.singleton == null)
         {
             Debug.Log("Need a NetworkManager in the scene");
@@ -214,12 +217,15 @@ public class INetworkDiscovery : NetworkDiscovery
         // Start broadcasting for other clients.
         StartAsServer();
 
-#if !UNITY_EDITOR && UNITY_WSA
-        // Start creating an anchor.
-        UNetAnchorManager.Instance.CreateAnchor();
-#else
-        Debug.LogWarning("This script will need modification to work in the Unity Editor");
-#endif
+        // ここから
+        // ここで createanchor 呼んでるけど、別にそうせずに、アンカーを探すフェーズになってから
+//#if !UNITY_EDITOR && UNITY_WSA
+//        // Start creating an anchor.
+//        UNetAnchorManager.Instance.CreateAnchor();
+//#else
+//        Debug.LogWarning("This script will need modification to work in the Unity Editor");
+//#endif
+        // ここまで
     }
 
     /// <summary>
@@ -270,12 +276,15 @@ public class INetworkDiscovery : NetworkDiscovery
         // We have to parse the server IP to make the string friendly to the windows APIs.
         ServerIp = session.SessionIp;
         NetworkManager.singleton.networkAddress = ServerIp;
-#if !UNITY_EDITOR && UNITY_WSA
-        // Tell the network transmitter the IP to request anchor data from if needed.
-        GenericNetworkTransmitter.Instance.SetServerIp(ServerIp);
-#else
-        Debug.LogWarning("This script will need modification to work in the Unity Editor");
-#endif
+        // ここから
+        // この部分は anchor を要求する処理なので、今回はいらないな
+//#if !UNITY_EDITOR && UNITY_WSA
+//        // Tell the network transmitter the IP to request anchor data from if needed.
+//        GenericNetworkTransmitter.Instance.SetServerIp(ServerIp);
+//#else
+//        Debug.LogWarning("This script will need modification to work in the Unity Editor");
+//#endif
+        // ここまで
         // And join the networked experience as a client.
         NetworkManager.singleton.StartClient();
         SignalConnectionStatusEvent();
@@ -301,12 +310,15 @@ public class INetworkDiscovery : NetworkDiscovery
         // Start broadcasting for other clients.
         StartAsServer();
 
-#if !UNITY_EDITOR && UNITY_WSA
-        // Invoke creating an anchor in a couple frames to give all the Unet network objects time to spawn.
-        Invoke("InvokeCreateAnchor", 0.25f);
-#else
-        Debug.LogWarning("This script will need modification to work in the Unity Editor");
-#endif
+        // ここから
+        // Anchor を作る必要がないからいらない
+//#if !UNITY_EDITOR && UNITY_WSA
+//        // Invoke creating an anchor in a couple frames to give all the Unet network objects time to spawn.
+//        Invoke("InvokeCreateAnchor", 0.25f);
+//#else
+//        Debug.LogWarning("This script will need modification to work in the Unity Editor");
+//#endif
+        // ここまで
 
         SignalSessionListEvent();
         SignalConnectionStatusEvent();
