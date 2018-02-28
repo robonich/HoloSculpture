@@ -6,7 +6,7 @@ using UnityEngine.XR.WSA;
 using HoloToolkit.Unity;
 using System;
 
-public class ObjectSettiongAnchor : MonoBehaviour, ISpeechHandler, IInputHandler {
+public class ObjectSettingAnchor : MonoBehaviour, ISpeechHandler, IInputHandler {
     public GameObject cursorObject;
     public GameObject anchorPoint;
     private Vector3 startPos = new Vector3(0, 0, 0);
@@ -62,7 +62,7 @@ public class ObjectSettiongAnchor : MonoBehaviour, ISpeechHandler, IInputHandler
         {
             DestroyImmediate(endAnchorPoint);
         }
-        endAnchorPoint = (GameObject)Instantiate(anchorPoint, endPos, transform.rotation);
+        endAnchorPoint = Instantiate(anchorPoint, endPos, transform.rotation);
         endAnchorPoint.GetComponent<Renderer>().material.SetColor("_Color", Color.red);
         print(endPos);
     }
@@ -90,9 +90,11 @@ public class ObjectSettiongAnchor : MonoBehaviour, ISpeechHandler, IInputHandler
                 // Move the object to the specified place
                 // start と end の中心に置く
                 transform.position = (startPos + endPos) / 2;
-                Vector3 relativePos = endPos - startPos;
-                Quaternion rotation = Quaternion.LookRotation(relativePos);
-                transform.rotation = rotation;
+
+                // 方向を変えてはだめだった。変えてしまうと球を打ち出すときにおかしくなる
+                //Vector3 relativePos = endPos - startPos;
+                //Quaternion rotation = Quaternion.LookRotation(relativePos);
+                //transform.rotation = rotation;
 
                 // Attach a new anchor
                 worldAnchor = gameObject.AddComponent<WorldAnchor>();

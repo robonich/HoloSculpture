@@ -12,7 +12,7 @@ using System.Linq;
 /// SculptureModel の状態を管理する。Singleton として扱う
 /// 1. 与えられたInitialStateJsonから配置する
 /// </summary>
-public class SculptureModelController : Singleton<SculptureModelController>
+public class SculptureModelController : SingleInstance<SculptureModelController>
 {
 
     public string JsonFileName;
@@ -71,7 +71,7 @@ public class SculptureModelController : Singleton<SculptureModelController>
     }
 
     // Use this for initialization
-    void Start () {
+    void Awake () {
         string jsonFilePath = Path.Combine(Application.streamingAssetsPath, "Jsons");
         jsonFilePath = Path.Combine(jsonFilePath, JsonFileName);
 

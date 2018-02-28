@@ -5,12 +5,12 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/HoloSculpture.unity
     guid: 08ea780dcb3d3d74dbf247c8e5b56329
   - enabled: 0
     path: Assets/Scenes/HoloShooting.unity
     guid: 7390576ba8eb02742aceaeaf8489f9bd
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/TestObjectSettingWorldAnchor.unity
     guid: df6421402d2c6ff499630fd2623a947b

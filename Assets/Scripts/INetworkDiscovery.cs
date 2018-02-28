@@ -1,10 +1,10 @@
 ﻿
+using HoloToolkit.Unity.SharingWithUNET;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
-using HoloToolkit.Unity.SharingWithUNET;
 
 #if !UNITY_EDITOR && UNITY_WSA
 using Windows.Networking;

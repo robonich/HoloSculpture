@@ -69,12 +69,7 @@ public class BlockUnitController : MonoBehaviour, IInputClickHandler {
 
         public void Do()
         {
-            print("Destroy cube");
-            Instantiate(breakAudio, this.gameObject.transform.position, this.gameObject.transform.rotation);
             Destroy(this.gameObject);
-            // map を更新する
-            blockCollectionController.blockCollectionMap[positionInMap[0]][positionInMap[1]][positionInMap[2]] = 0;
-            ScoreController.Instance.CalcAndChangeScoreAt(positionInMap);
         }
 
         public void Redo()
@@ -95,19 +90,32 @@ public class BlockUnitController : MonoBehaviour, IInputClickHandler {
             NetworkServer.Spawn(block);
             // 新しく生成した block に破壊対象を変更する
             this.gameObject = block;
-            // map を更新する
-            blockCollectionController.blockCollectionMap[positionInMap[0]][positionInMap[1]][positionInMap[2]] = BlockCollectionData.colorToInt[colorAtDestruction];
-            ScoreController.Instance.CalcAndChangeScoreAt(positionInMap);
         }
     }
 
     // Use this for initialization
     void Start () {
         blockHistoryManager = BlockCollectionController.Instance.blockHistoryManager;
+        // map を更新する
+        // start の前には色がもう変わっているはずなので直接参照する
+        // もし変わっていなかったら default が入るので 1 になるかエラーになる
+        BlockCollectionController.Instance.blockCollectionMap[positionInMap[0]][positionInMap[1]][positionInMap[2]] = BlockCollectionData.colorToInt[GetComponent<Renderer>().material.color];
+        // もしまだスコアが初期化されていなかったら特に計算されない
+        ScoreController.Instance.CalcAndChangeScoreAt(positionInMap);
     }
 	
 	// Update is called once per frame
 	void Update () {
 		
 	}
+
+    private void OnDestroy()
+    {
+        print("Destroy cube");
+        // 破壊時の音をだす
+        Instantiate(breakAudio, this.gameObject.transform.position, this.gameObject.transform.rotation);
+        // map を更新する
+        BlockCollectionController.Instance.blockCollectionMap[positionInMap[0]][positionInMap[1]][positionInMap[2]] = 0;
+        ScoreController.Instance.CalcAndChangeScoreAt(positionInMap);
+    }
 }

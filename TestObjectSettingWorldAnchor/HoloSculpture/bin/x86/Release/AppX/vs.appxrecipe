@@ -31,13 +31,13 @@
     <AppXManifest Include="C:\Users\MercariXR03\Documents\robonich_git\HoloSculpture\TestObjectSettingWorldAnchor\HoloSculpture\bin\x86\Release\Core\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2018-02-20T03:33:00.721</Modified>
+      <Modified>2018-02-24T15:41:00.235</Modified>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
     <AppxPackagedFile Include="C:\Users\MercariXR03\Documents\robonich_git\HoloSculpture\TestObjectSettingWorldAnchor\HoloSculpture\bin\x86\Release\HoloSculpture.exe">
       <PackagePath>entrypoint\HoloSculpture.exe</PackagePath>
-      <Modified>2018-02-20T03:32:44.034</Modified>
+      <Modified>2018-02-24T15:40:42.450</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\MercariXR03\.nuget\packages\microsoft.applicationinsights\1.0.0\lib\portable-win81+wpa81\Microsoft.ApplicationInsights.dll">
       <PackagePath>Microsoft.ApplicationInsights.dll</PackagePath>
@@ -501,7 +501,7 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\MercariXR03\Documents\robonich_git\HoloSculpture\TestObjectSettingWorldAnchor\HoloSculpture\Resource.res">
       <PackagePath>Resource.res</PackagePath>
-      <Modified>2018-02-20T03:31:37.281</Modified>
+      <Modified>2018-02-24T15:38:57.003</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\MercariXR03\Documents\robonich_git\HoloSculpture\TestObjectSettingWorldAnchor\HoloSculpture\Assets\SplashScreen.scale-200.png">
       <PackagePath>Assets\SplashScreen.scale-200.png</PackagePath>
@@ -559,15 +559,15 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\MercariXR03\Documents\robonich_git\HoloSculpture\TestObjectSettingWorldAnchor\HoloSculpture\Data\boot.config">
       <PackagePath>Data\boot.config</PackagePath>
-      <Modified>2018-02-20T03:30:48.829</Modified>
+      <Modified>2018-02-24T15:38:08.283</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\MercariXR03\Documents\robonich_git\HoloSculpture\TestObjectSettingWorldAnchor\HoloSculpture\Data\globalgamemanagers">
       <PackagePath>Data\globalgamemanagers</PackagePath>
-      <Modified>2018-02-20T03:30:47.633</Modified>
+      <Modified>2018-02-24T15:38:05.361</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\MercariXR03\Documents\robonich_git\HoloSculpture\TestObjectSettingWorldAnchor\HoloSculpture\Data\level0">
       <PackagePath>Data\level0</PackagePath>
-      <Modified>2018-02-20T03:30:46.088</Modified>
+      <Modified>2018-02-24T15:38:03.770</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\MercariXR03\Documents\robonich_git\HoloSculpture\TestObjectSettingWorldAnchor\HoloSculpture\Data\Resources\unity default resources">
       <PackagePath>Data\Resources\unity default resources</PackagePath>
@@ -575,31 +575,31 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\MercariXR03\Documents\robonich_git\HoloSculpture\TestObjectSettingWorldAnchor\HoloSculpture\Data\Resources\unity_builtin_extra">
       <PackagePath>Data\Resources\unity_builtin_extra</PackagePath>
-      <Modified>2018-02-20T03:30:48.827</Modified>
+      <Modified>2018-02-24T15:38:08.280</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\MercariXR03\Documents\robonich_git\HoloSculpture\TestObjectSettingWorldAnchor\HoloSculpture\Data\globalgamemanagers.assets">
       <PackagePath>Data\globalgamemanagers.assets</PackagePath>
-      <Modified>2018-02-20T03:30:47.929</Modified>
+      <Modified>2018-02-24T15:38:05.617</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\MercariXR03\Documents\robonich_git\HoloSculpture\TestObjectSettingWorldAnchor\HoloSculpture\Data\sharedassets0.assets">
       <PackagePath>Data\sharedassets0.assets</PackagePath>
-      <Modified>2018-02-20T03:30:48.439</Modified>
+      <Modified>2018-02-24T15:38:07.447</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\MercariXR03\Documents\robonich_git\HoloSculpture\TestObjectSettingWorldAnchor\HoloSculpture\Data\managedAssemblies.txt">
       <PackagePath>Data\managedAssemblies.txt</PackagePath>
-      <Modified>2018-02-20T03:31:37.199</Modified>
+      <Modified>2018-02-24T15:38:56.933</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\MercariXR03\Documents\robonich_git\HoloSculpture\TestObjectSettingWorldAnchor\HoloSculpture\Data\nativePlugins.txt">
       <PackagePath>Data\nativePlugins.txt</PackagePath>
-      <Modified>2018-02-20T03:31:37.200</Modified>
+      <Modified>2018-02-24T15:38:56.934</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\MercariXR03\Documents\robonich_git\HoloSculpture\TestObjectSettingWorldAnchor\HoloSculpture\Data\sharedassets0.assets.resS">
       <PackagePath>Data\sharedassets0.assets.resS</PackagePath>
-      <Modified>2018-02-20T03:30:48.439</Modified>
+      <Modified>2018-02-24T15:38:07.447</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\MercariXR03\Documents\robonich_git\HoloSculpture\TestObjectSettingWorldAnchor\HoloSculpture\Data\sharedassets0.resource">
       <PackagePath>Data\sharedassets0.resource</PackagePath>
-      <Modified>2018-02-20T03:30:48.443</Modified>
+      <Modified>2018-02-24T15:38:07.452</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\MercariXR03\Documents\robonich_git\HoloSculpture\TestObjectSettingWorldAnchor\HoloSculpture\Data\StreamingAssets\Jsons\model1.json">
       <PackagePath>Data\StreamingAssets\Jsons\model1.json</PackagePath>
@@ -620,211 +620,211 @@
     <AppxPackagedFile Include="C:\Users\MercariXR03\Documents\robonich_git\HoloSculpture\TestObjectSettingWorldAnchor\HoloSculpture\bin\x86\Release\resources.pri">
       <PackagePath>resources.pri</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2018-02-20T03:32:44.591</Modified>
+      <Modified>2018-02-24T15:40:43.269</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\MercariXR03\Documents\robonich_git\HoloSculpture\TestObjectSettingWorldAnchor\HoloSculpture\UnityEngine.TilemapModule.dll">
       <PackagePath>UnityEngine.TilemapModule.dll</PackagePath>
-      <Modified>2018-02-20T03:32:57.222</Modified>
+      <Modified>2018-02-24T15:40:56.296</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\MercariXR03\Documents\robonich_git\HoloSculpture\TestObjectSettingWorldAnchor\HoloSculpture\UnityEngine.TextRenderingModule.dll">
       <PackagePath>UnityEngine.TextRenderingModule.dll</PackagePath>
-      <Modified>2018-02-20T03:32:57.226</Modified>
+      <Modified>2018-02-24T15:40:56.302</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\MercariXR03\Documents\robonich_git\HoloSculpture\TestObjectSettingWorldAnchor\HoloSculpture\UnityEngine.UIModule.dll">
       <PackagePath>UnityEngine.UIModule.dll</PackagePath>
-      <Modified>2018-02-20T03:32:57.231</Modified>
+      <Modified>2018-02-24T15:40:56.309</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\MercariXR03\Documents\robonich_git\HoloSculpture\TestObjectSettingWorldAnchor\HoloSculpture\UnityEngine.UIElementsModule.dll">
       <PackagePath>UnityEngine.UIElementsModule.dll</PackagePath>
-      <Modified>2018-02-20T03:32:57.246</Modified>
+      <Modified>2018-02-24T15:40:56.327</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\MercariXR03\Documents\robonich_git\HoloSculpture\TestObjectSettingWorldAnchor\HoloSculpture\UnityEngine.SpriteMaskModule.dll">
       <PackagePath>UnityEngine.SpriteMaskModule.dll</PackagePath>
-      <Modified>2018-02-20T03:32:57.250</Modified>
+      <Modified>2018-02-24T15:40:56.331</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\MercariXR03\Documents\robonich_git\HoloSculpture\TestObjectSettingWorldAnchor\HoloSculpture\UnityEngine.ScreenCaptureModule.dll">
       <PackagePath>UnityEngine.ScreenCaptureModule.dll</PackagePath>
-      <Modified>2018-02-20T03:32:57.253</Modified>
+      <Modified>2018-02-24T15:40:56.334</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\MercariXR03\Documents\robonich_git\HoloSculpture\TestObjectSettingWorldAnchor\HoloSculpture\UnityEngine.PhysicsModule.dll">
       <PackagePath>UnityEngine.PhysicsModule.dll</PackagePath>
-      <Modified>2018-02-20T03:32:57.261</Modified>
+      <Modified>2018-02-24T15:40:56.345</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\MercariXR03\Documents\robonich_git\HoloSculpture\TestObjectSettingWorldAnchor\HoloSculpture\UnityEngine.TerrainPhysicsModule.dll">
       <PackagePath>UnityEngine.TerrainPhysicsModule.dll</PackagePath>
-      <Modified>2018-02-20T03:32:57.264</Modified>
+      <Modified>2018-02-24T15:40:56.348</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\MercariXR03\Documents\robonich_git\HoloSculpture\TestObjectSettingWorldAnchor\HoloSculpture\UnityEngine.TerrainModule.dll">
       <PackagePath>UnityEngine.TerrainModule.dll</PackagePath>
-      <Modified>2018-02-20T03:32:57.271</Modified>
+      <Modified>2018-02-24T15:40:56.354</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\MercariXR03\Documents\robonich_git\HoloSculpture\TestObjectSettingWorldAnchor\HoloSculpture\UnityEngine.StyleSheetsModule.dll">
       <PackagePath>UnityEngine.StyleSheetsModule.dll</PackagePath>
-      <Modified>2018-02-20T03:32:57.275</Modified>
+      <Modified>2018-02-24T15:40:56.358</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\MercariXR03\Documents\robonich_git\HoloSculpture\TestObjectSettingWorldAnchor\HoloSculpture\UnityEngine.UNETModule.dll">
       <PackagePath>UnityEngine.UNETModule.dll</PackagePath>
-      <Modified>2018-02-20T03:32:57.283</Modified>
+      <Modified>2018-02-24T15:40:56.375</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\MercariXR03\Documents\robonich_git\HoloSculpture\TestObjectSettingWorldAnchor\HoloSculpture\UnityEngine.VRModule.dll">
       <PackagePath>UnityEngine.VRModule.dll</PackagePath>
-      <Modified>2018-02-20T03:32:57.298</Modified>
+      <Modified>2018-02-24T15:40:56.385</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\MercariXR03\Documents\robonich_git\HoloSculpture\TestObjectSettingWorldAnchor\HoloSculpture\UnityEngine.VideoModule.dll">
       <PackagePath>UnityEngine.VideoModule.dll</PackagePath>
-      <Modified>2018-02-20T03:32:57.303</Modified>
+      <Modified>2018-02-24T15:40:56.390</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\MercariXR03\Documents\robonich_git\HoloSculpture\TestObjectSettingWorldAnchor\HoloSculpture\UnityEngine.VehiclesModule.dll">
       <PackagePath>UnityEngine.VehiclesModule.dll</PackagePath>
-      <Modified>2018-02-20T03:32:57.307</Modified>
+      <Modified>2018-02-24T15:40:56.394</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\MercariXR03\Documents\robonich_git\HoloSculpture\TestObjectSettingWorldAnchor\HoloSculpture\UnityEngine.WindModule.dll">
       <PackagePath>UnityEngine.WindModule.dll</PackagePath>
-      <Modified>2018-02-20T03:32:57.311</Modified>
+      <Modified>2018-02-24T15:40:56.398</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\MercariXR03\Documents\robonich_git\HoloSculpture\TestObjectSettingWorldAnchor\HoloSculpture\UnityEngine.WebModule.dll">
       <PackagePath>UnityEngine.WebModule.dll</PackagePath>
-      <Modified>2018-02-20T03:32:57.317</Modified>
+      <Modified>2018-02-24T15:40:56.403</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\MercariXR03\Documents\robonich_git\HoloSculpture\TestObjectSettingWorldAnchor\HoloSculpture\UnityEngine.UnityWebRequestAudioModule.dll">
       <PackagePath>UnityEngine.UnityWebRequestAudioModule.dll</PackagePath>
-      <Modified>2018-02-20T03:32:57.321</Modified>
+      <Modified>2018-02-24T15:40:56.407</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\MercariXR03\Documents\robonich_git\HoloSculpture\TestObjectSettingWorldAnchor\HoloSculpture\UnityEngine.UnityConnectModule.dll">
       <PackagePath>UnityEngine.UnityConnectModule.dll</PackagePath>
-      <Modified>2018-02-20T03:32:57.324</Modified>
+      <Modified>2018-02-24T15:40:56.411</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\MercariXR03\Documents\robonich_git\HoloSculpture\TestObjectSettingWorldAnchor\HoloSculpture\UnityEngine.UnityAnalyticsModule.dll">
       <PackagePath>UnityEngine.UnityAnalyticsModule.dll</PackagePath>
-      <Modified>2018-02-20T03:32:57.328</Modified>
+      <Modified>2018-02-24T15:40:56.415</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\MercariXR03\Documents\robonich_git\HoloSculpture\TestObjectSettingWorldAnchor\HoloSculpture\UnityEngine.UnityWebRequestWWWModule.dll">
       <PackagePath>UnityEngine.UnityWebRequestWWWModule.dll</PackagePath>
-      <Modified>2018-02-20T03:32:57.332</Modified>
+      <Modified>2018-02-24T15:40:56.419</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\MercariXR03\Documents\robonich_git\HoloSculpture\TestObjectSettingWorldAnchor\HoloSculpture\UnityEngine.UnityWebRequestTextureModule.dll">
       <PackagePath>UnityEngine.UnityWebRequestTextureModule.dll</PackagePath>
-      <Modified>2018-02-20T03:32:57.336</Modified>
+      <Modified>2018-02-24T15:40:56.422</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\MercariXR03\Documents\robonich_git\HoloSculpture\TestObjectSettingWorldAnchor\HoloSculpture\UnityEngine.UnityWebRequestModule.dll">
       <PackagePath>UnityEngine.UnityWebRequestModule.dll</PackagePath>
-      <Modified>2018-02-20T03:32:57.341</Modified>
+      <Modified>2018-02-24T15:40:56.428</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\MercariXR03\Documents\robonich_git\HoloSculpture\TestObjectSettingWorldAnchor\HoloSculpture\UnityEngine.Physics2DModule.dll">
       <PackagePath>UnityEngine.Physics2DModule.dll</PackagePath>
-      <Modified>2018-02-20T03:32:57.352</Modified>
+      <Modified>2018-02-24T15:40:56.438</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\MercariXR03\Documents\robonich_git\HoloSculpture\TestObjectSettingWorldAnchor\HoloSculpture\UnityEngine.AudioModule.dll">
       <PackagePath>UnityEngine.AudioModule.dll</PackagePath>
-      <Modified>2018-02-20T03:32:57.359</Modified>
+      <Modified>2018-02-24T15:40:56.446</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\MercariXR03\Documents\robonich_git\HoloSculpture\TestObjectSettingWorldAnchor\HoloSculpture\UnityEngine.ARModule.dll">
       <PackagePath>UnityEngine.ARModule.dll</PackagePath>
-      <Modified>2018-02-20T03:32:57.365</Modified>
+      <Modified>2018-02-24T15:40:56.452</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\MercariXR03\Documents\robonich_git\HoloSculpture\TestObjectSettingWorldAnchor\HoloSculpture\UnityEngine.AnimationModule.dll">
       <PackagePath>UnityEngine.AnimationModule.dll</PackagePath>
-      <Modified>2018-02-20T03:32:57.374</Modified>
+      <Modified>2018-02-24T15:40:56.460</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\MercariXR03\Documents\robonich_git\HoloSculpture\TestObjectSettingWorldAnchor\HoloSculpture\UnityEngine.CrashReportingModule.dll">
       <PackagePath>UnityEngine.CrashReportingModule.dll</PackagePath>
-      <Modified>2018-02-20T03:32:57.377</Modified>
+      <Modified>2018-02-24T15:40:56.464</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\MercariXR03\Documents\robonich_git\HoloSculpture\TestObjectSettingWorldAnchor\HoloSculpture\UnityEngine.CoreModule.dll">
       <PackagePath>UnityEngine.CoreModule.dll</PackagePath>
-      <Modified>2018-02-20T03:32:57.565</Modified>
+      <Modified>2018-02-24T15:40:56.663</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\MercariXR03\Documents\robonich_git\HoloSculpture\TestObjectSettingWorldAnchor\HoloSculpture\UnityEngine.ClothModule.dll">
       <PackagePath>UnityEngine.ClothModule.dll</PackagePath>
-      <Modified>2018-02-20T03:32:57.570</Modified>
+      <Modified>2018-02-24T15:40:56.667</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\MercariXR03\Documents\robonich_git\HoloSculpture\TestObjectSettingWorldAnchor\HoloSculpture\UnityEngine.AIModule.dll">
       <PackagePath>UnityEngine.AIModule.dll</PackagePath>
-      <Modified>2018-02-20T03:32:57.576</Modified>
+      <Modified>2018-02-24T15:40:56.673</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\MercariXR03\Documents\robonich_git\HoloSculpture\TestObjectSettingWorldAnchor\HoloSculpture\UnityEngine.AccessibilityModule.dll">
       <PackagePath>UnityEngine.AccessibilityModule.dll</PackagePath>
-      <Modified>2018-02-20T03:32:57.579</Modified>
+      <Modified>2018-02-24T15:40:56.677</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\MercariXR03\Documents\robonich_git\HoloSculpture\TestObjectSettingWorldAnchor\HoloSculpture\UnityEngine.DirectorModule.dll">
       <PackagePath>UnityEngine.DirectorModule.dll</PackagePath>
-      <Modified>2018-02-20T03:32:57.583</Modified>
+      <Modified>2018-02-24T15:40:56.681</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\MercariXR03\Documents\robonich_git\HoloSculpture\TestObjectSettingWorldAnchor\HoloSculpture\UnityEngine.JSONSerializeModule.dll">
       <PackagePath>UnityEngine.JSONSerializeModule.dll</PackagePath>
-      <Modified>2018-02-20T03:32:57.587</Modified>
+      <Modified>2018-02-24T15:40:56.685</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\MercariXR03\Documents\robonich_git\HoloSculpture\TestObjectSettingWorldAnchor\HoloSculpture\UnityEngine.InputModule.dll">
       <PackagePath>UnityEngine.InputModule.dll</PackagePath>
-      <Modified>2018-02-20T03:32:57.591</Modified>
+      <Modified>2018-02-24T15:40:56.688</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\MercariXR03\Documents\robonich_git\HoloSculpture\TestObjectSettingWorldAnchor\HoloSculpture\UnityEngine.PerformanceReportingModule.dll">
       <PackagePath>UnityEngine.PerformanceReportingModule.dll</PackagePath>
-      <Modified>2018-02-20T03:32:57.594</Modified>
+      <Modified>2018-02-24T15:40:56.692</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\MercariXR03\Documents\robonich_git\HoloSculpture\TestObjectSettingWorldAnchor\HoloSculpture\UnityEngine.ParticleSystemModule.dll">
       <PackagePath>UnityEngine.ParticleSystemModule.dll</PackagePath>
-      <Modified>2018-02-20T03:32:57.610</Modified>
+      <Modified>2018-02-24T15:40:56.703</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\MercariXR03\Documents\robonich_git\HoloSculpture\TestObjectSettingWorldAnchor\HoloSculpture\UnityEngine.ParticlesLegacyModule.dll">
       <PackagePath>UnityEngine.ParticlesLegacyModule.dll</PackagePath>
-      <Modified>2018-02-20T03:32:57.614</Modified>
+      <Modified>2018-02-24T15:40:56.708</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\MercariXR03\Documents\robonich_git\HoloSculpture\TestObjectSettingWorldAnchor\HoloSculpture\UnityEngine.GridModule.dll">
       <PackagePath>UnityEngine.GridModule.dll</PackagePath>
-      <Modified>2018-02-20T03:32:57.618</Modified>
+      <Modified>2018-02-24T15:40:56.713</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\MercariXR03\Documents\robonich_git\HoloSculpture\TestObjectSettingWorldAnchor\HoloSculpture\UnityEngine.GameCenterModule.dll">
       <PackagePath>UnityEngine.GameCenterModule.dll</PackagePath>
-      <Modified>2018-02-20T03:32:57.623</Modified>
+      <Modified>2018-02-24T15:40:56.718</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\MercariXR03\Documents\robonich_git\HoloSculpture\TestObjectSettingWorldAnchor\HoloSculpture\UnityEngine.dll">
       <PackagePath>UnityEngine.dll</PackagePath>
-      <Modified>2018-02-20T03:31:16.873</Modified>
+      <Modified>2018-02-24T15:38:36.437</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\MercariXR03\Documents\robonich_git\HoloSculpture\TestObjectSettingWorldAnchor\HoloSculpture\UnityEngine.IMGUIModule.dll">
       <PackagePath>UnityEngine.IMGUIModule.dll</PackagePath>
-      <Modified>2018-02-20T03:32:57.636</Modified>
+      <Modified>2018-02-24T15:40:56.734</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\MercariXR03\Documents\robonich_git\HoloSculpture\TestObjectSettingWorldAnchor\HoloSculpture\UnityEngine.ImageConversionModule.dll">
       <PackagePath>UnityEngine.ImageConversionModule.dll</PackagePath>
-      <Modified>2018-02-20T03:32:57.639</Modified>
+      <Modified>2018-02-24T15:40:56.738</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\MercariXR03\Documents\robonich_git\HoloSculpture\TestObjectSettingWorldAnchor\HoloSculpture\Newtonsoft.Json.dll">
       <PackagePath>Newtonsoft.Json.dll</PackagePath>
-      <Modified>2018-02-20T03:32:57.679</Modified>
+      <Modified>2018-02-24T15:40:56.777</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\MercariXR03\Documents\robonich_git\HoloSculpture\TestObjectSettingWorldAnchor\HoloSculpture\UnityEngine.Timeline.dll">
       <PackagePath>UnityEngine.Timeline.dll</PackagePath>
-      <Modified>2018-02-20T03:32:57.702</Modified>
+      <Modified>2018-02-24T15:40:56.802</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\MercariXR03\Documents\robonich_git\HoloSculpture\TestObjectSettingWorldAnchor\HoloSculpture\nunit.framework.dll">
       <PackagePath>nunit.framework.dll</PackagePath>
-      <Modified>2018-02-20T03:32:57.730</Modified>
+      <Modified>2018-02-24T15:40:56.831</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\MercariXR03\Documents\robonich_git\HoloSculpture\TestObjectSettingWorldAnchor\HoloSculpture\UnityEngine.UI.dll">
       <PackagePath>UnityEngine.UI.dll</PackagePath>
-      <Modified>2018-02-20T03:32:57.795</Modified>
+      <Modified>2018-02-24T15:40:56.897</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\MercariXR03\Documents\robonich_git\HoloSculpture\TestObjectSettingWorldAnchor\HoloSculpture\UnityEngine.Analytics.dll">
       <PackagePath>UnityEngine.Analytics.dll</PackagePath>
-      <Modified>2018-02-20T03:32:57.800</Modified>
+      <Modified>2018-02-24T15:40:56.902</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\MercariXR03\Documents\robonich_git\HoloSculpture\TestObjectSettingWorldAnchor\HoloSculpture\UnityEngine.HoloLens.dll">
       <PackagePath>UnityEngine.HoloLens.dll</PackagePath>
-      <Modified>2018-02-20T03:32:57.809</Modified>
+      <Modified>2018-02-24T15:40:56.913</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\MercariXR03\Documents\robonich_git\HoloSculpture\TestObjectSettingWorldAnchor\HoloSculpture\UnityEngine.Networking.dll">
       <PackagePath>UnityEngine.Networking.dll</PackagePath>
-      <Modified>2018-02-20T03:32:57.854</Modified>
+      <Modified>2018-02-24T15:40:56.958</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\MercariXR03\Documents\robonich_git\HoloSculpture\TestObjectSettingWorldAnchor\HoloSculpture\Assembly-CSharp.dll">
       <PackagePath>Assembly-CSharp.dll</PackagePath>
-      <Modified>2018-02-20T03:32:57.211</Modified>
+      <Modified>2018-02-24T15:40:56.291</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\MercariXR03\Documents\robonich_git\HoloSculpture\TestObjectSettingWorldAnchor\HoloSculpture\bin\x86\Release\Core\HoloSculpture.exe">
       <PackagePath>HoloSculpture.exe</PackagePath>
-      <Modified>2018-02-20T03:33:00.715</Modified>
+      <Modified>2018-02-24T15:41:00.229</Modified>
     </AppxPackagedFile>
   </ItemGroup>
   <ItemGroup>

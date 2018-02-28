@@ -14,18 +14,10 @@ public class IStartSessionButton : MonoBehaviour, IInputClickHandler
     /// </summary>
     private INetworkDiscovery networkDiscovery;
 
-    private BlockCollectionController blockCollection;
-    private SculptureModelController sculptureModel;
-
     private void Start()
     {
         networkDiscovery = INetworkDiscovery.Instance;
-
-        if (false)
-        {
-            blockCollection = BlockCollectionController.Instance;
-            sculptureModel = SculptureModelController.Instance;
-        }
+        
 #if UNITY_WSA && UNITY_2017_2_OR_NEWER
         if (UnityEngine.XR.WSA.HolographicSettings.IsDisplayOpaque && !Application.isEditor)
         {
@@ -66,15 +58,6 @@ public class IStartSessionButton : MonoBehaviour, IInputClickHandler
 
                 networkDiscovery.StartHosting("DefaultName");
                 eventData.Use();
-
-                if (false)
-                {
-                    // Session が開始した直後に、ブロックをspawnさせる
-                    blockCollection.ArrangeBlocks();
-                    sculptureModel.ArrangeBlocks();
-                    // score を計算する
-                    ScoreController.Instance.InitializeScore();
-                }
             }
         }
     }

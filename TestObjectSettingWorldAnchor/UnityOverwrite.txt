@@ -8,7 +8,7 @@
 HoloSculpture.sln: modified
 GeneratedProjects\UWP\Assembly-CSharp\project.json: 4FCF72A4D5EDB37E24C206A7BCFE7AF1
 HoloSculpture\App.cs: B1DFF2540B4A1943CB28601EDB759A36
-HoloSculpture\HoloSculpture.csproj: E713801C18936E554F13B4AB9D206926
+HoloSculpture\HoloSculpture.csproj: 4D2F85A0362EB63901C12160F50D868D
 HoloSculpture\HoloSculpture.csproj.user: modified
 HoloSculpture\Package.appxmanifest: F8EB059D2C67D2E73DE33DE4E7EAB9C9
 HoloSculpture\project.json: 1D02BC64BAC0D041019673A1C4C51737

@@ -14,7 +14,7 @@ using System.Linq;
 /// 2. Undo/Redo 機能を保有（BlockHistoryManager）
 /// </summary>
 
-public class BlockCollectionController : Singleton<BlockCollectionController>, ISpeechHandler
+public class BlockCollectionController : NetworkBehaviour, ISpeechHandler
 {
 
     public string JsonFileName;
@@ -23,6 +23,37 @@ public class BlockCollectionController : Singleton<BlockCollectionController>, I
 
     private BlockCollectionData data;
     public int[][][] blockCollectionMap;
+
+    private static BlockCollectionController _Instance;
+    public static BlockCollectionController Instance
+    {
+        get
+        {
+            if (_Instance == null)
+            {
+                BlockCollectionController[] objects = FindObjectsOfType<BlockCollectionController>();
+                if (objects.Length == 1)
+                {
+                    _Instance = objects[0];
+                }
+                else if (objects.Length > 1)
+                {
+                    Debug.LogErrorFormat("Expected exactly 1 {0} but found {1}", typeof(BlockCollectionController).ToString(), objects.Length);
+                }
+            }
+            return _Instance;
+        }
+    }
+
+    /// <summary>
+    /// Called by Unity when destroying a MonoBehaviour. Scripts that extend
+    /// SingleInstance should be sure to call base.OnDestroy() to ensure the
+    /// underlying static _Instance reference is properly cleaned up.
+    /// </summary>
+    protected virtual void OnDestroy()
+    {
+        _Instance = null;
+    }
 
     public void OnSpeechKeywordRecognized(SpeechEventData eventData)
     {
@@ -33,6 +64,7 @@ public class BlockCollectionController : Singleton<BlockCollectionController>, I
 
     /// <summary>
     /// BlockUnit を配置する（ゲーム開始時や、リセットの時に呼ばれる）
+    /// これはサーバーだけが呼べることに注意。
     /// </summary>
     public void ArrangeBlocks()
     {
@@ -81,17 +113,27 @@ public class BlockCollectionController : Singleton<BlockCollectionController>, I
         }
     }
 
+    /// <summary>
+    /// reset はサーバーだけが呼べる？？
+    /// 多分そうだよな。 reset をすると
+    /// </summary>
     public void ResetBlocks()
     {
-        // blockHistory の状態を reset
-        print("Reset BlockHistoryManager");
-        blockHistoryManager.Reset();
+        if(!isServer)
+        {
+            print("Client has no authority to reset the game");
+            return;
+        }
 
+        // すべてのデバイスで実行するブロックリセット前の動作
+        CmdResetInAllDevice();
+        
         // BlockCollection の子オブジェクトをすべて消す
+        // これは server でだけ行われる
         print("Delete all blocks");
         var transforms = this.GetComponentsInChildren<Transform>();
         print(this.GetComponentsInChildren<Transform>().Count());
-        for(int i = transform.childCount - 1; i>= 0; --i)
+        for (int i = transform.childCount - 1; i >= 0; --i)
         {
             var g = transform.GetChild(i).gameObject;
             if (g.name.Contains("BlockUnit"))
@@ -101,7 +143,24 @@ public class BlockCollectionController : Singleton<BlockCollectionController>, I
         }
         print(this.GetComponentsInChildren<Transform>().Count());
 
+        // Arrange する
+        ArrangeBlocks();
+
+        // すべてのデバイスで実行するブロックリセット後の動作
+        CmdInitializeScoreInAllDevice();
+    }
+
+    [Command]
+    void CmdResetInAllDevice()
+    {
+        print("Reset in client");
+        ScoreController.Instance.haveInitialized = false;
+        // blockHistory の状態を reset
+        print("Reset BlockHistoryManager");
+        blockHistoryManager.Reset();
+
         // blockCollectionMap のリセット
+        print("Reset BlockCollectionMap");
         for (int i = 0; i < blockCollectionMap.Length; i++)
         {
             blockCollectionMap[i] = new int[data.blockArrangement[0].Length][];
@@ -115,11 +174,15 @@ public class BlockCollectionController : Singleton<BlockCollectionController>, I
                 }
             }
         }
-
-        // Arrange する
-        ArrangeBlocks();
     }
 
+    [Command]
+    void CmdInitializeScoreInAllDevice()
+    {
+        print("Initialize Score in Client");
+        ScoreController.Instance.InitializeScore();
+    }
+    
     private void ChangeState(string command)
     {
         switch (command.ToLower())
@@ -137,7 +200,8 @@ public class BlockCollectionController : Singleton<BlockCollectionController>, I
     }
 
     // Use this for initialization
-    void Start()
+    // Awake に書くことで、 Instantiate が呼ばれたらほかの処理が走る前に実行される
+    void Awake()
     {
         string jsonFilePath = Path.Combine(Application.streamingAssetsPath, "Jsons");
         jsonFilePath = Path.Combine(jsonFilePath, JsonFileName);
