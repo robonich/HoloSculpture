@@ -3,33 +3,43 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
+using System;
 
 namespace FromScratch
 {
-    public class ScoreController : NetworkBehaviour
+    public class ScoreAndTimeController : NetworkBehaviour
     {
         private SystemControllerInServer systemControllerInServer;
         [SyncVar]
         private int score = 0;
+        private int initialScore = 0;
+
+        private int startTime;
+        private int now;
+        [SyncVar]
+        private int leftTime = 120;
+        private int initialLeftTime = 120;
+        public Text timeText;
         public Text scoreText;
+        public Image timerImage;
         [SyncVar]
         public bool hasInitialized = false;
 
-        private static ScoreController _Instance;
-        public static ScoreController Instance
+        private static ScoreAndTimeController _Instance;
+        public static ScoreAndTimeController Instance
         {
             get
             {
                 if (_Instance == null)
                 {
-                    ScoreController[] objects = FindObjectsOfType<ScoreController>();
+                    ScoreAndTimeController[] objects = FindObjectsOfType<ScoreAndTimeController>();
                     if (objects.Length == 1)
                     {
                         _Instance = objects[0];
                     }
                     else if (objects.Length > 1)
                     {
-                        Debug.LogErrorFormat("Expected exactly 1 {0} but found {1}", typeof(ScoreController).ToString(), objects.Length);
+                        Debug.LogErrorFormat("Expected exactly 1 {0} but found {1}", typeof(ScoreAndTimeController).ToString(), objects.Length);
                     }
                 }
                 return _Instance;
@@ -49,8 +59,10 @@ namespace FromScratch
         /// <summary>
         /// スコア初期化の
         /// </summary>
-        public void InitializeScore()
+        public void Initialize()
         {
+            score = initialScore;
+            leftTime = initialLeftTime;
             // score 計算は server だけ
             if (isServer)
             {
@@ -70,6 +82,8 @@ namespace FromScratch
                         }
                     }
                 }
+
+                startTime = DateTime.Now.Hour * 60 * 60 + DateTime.Now.Minute * 60 + DateTime.Now.Second;
 
                 hasInitialized = true;
             }
@@ -101,19 +115,23 @@ namespace FromScratch
         // Use this for initialization
         void Start()
         {
-
+            timerImage.enabled = false;
         }
 
         // Update is called once per frame
         void Update()
         {
-            
+
             // 得点表示
             if (hasInitialized)
+            {
                 scoreText.text = "Score: " + score.ToString();
-            
-
-            
+                now = DateTime.Now.Hour * 60 * 60 + DateTime.Now.Minute * 60 + DateTime.Now.Second;
+                leftTime -= now - startTime;
+                startTime = now;
+                timeText.text = leftTime.ToString();
+                timerImage.enabled = true;
+            }
         }
     }
 }

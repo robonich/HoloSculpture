@@ -13,7 +13,7 @@ namespace FromScratch
     /// Controls player behavior (local and remote).
     /// </summary>
     [NetworkSettings(sendInterval = 0.033f)]
-    public class PlayerController : NetworkBehaviour, IInputClickHandler
+    public class PlayerController : NetworkBehaviour
     {
         private static PlayerController _Instance = null;
         /// <summary>
@@ -215,7 +215,7 @@ namespace FromScratch
             {
                 // If we are the local player then we want to have airtaps 
                 // sent to this object so that projectiles can be spawned.
-                InputManager.Instance.AddGlobalListener(gameObject);
+                //InputManager.Instance.AddGlobalListener(gameObject);
                 InitializeLocalPlayer();
             }
             else
@@ -295,10 +295,10 @@ namespace FromScratch
 
         private void OnDestroy()
         {
-            if (isLocalPlayer)
-            {
-                InputManager.Instance.RemoveGlobalListener(gameObject);
-            }
+            //if (isLocalPlayer)
+            //{
+            //    InputManager.Instance.RemoveGlobalListener(gameObject);
+            //}
         }
 
         /// <summary>
@@ -330,12 +330,54 @@ namespace FromScratch
             Destroy(nextBullet, 8.0f);
         }
 
-        public void OnInputClicked(InputClickedEventData eventData)
+        public void DisableBlock(GameObject blockUnit)
         {
             if (isLocalPlayer)
             {
-                CmdFire();
+                CmdDisableBlock(blockUnit);
             }
+        }
+
+        [Command]
+        private void CmdDisableBlock(GameObject blockUnit)
+        {
+            var blockUnitController = blockUnit.GetComponent<BlockUnitController>();
+            var positionInMap = blockUnitController.positionInMap;
+
+            // map を更新する
+            Vector3Int IpositionInMap = new Vector3Int((int)positionInMap[0], (int)positionInMap[1], (int)positionInMap[2]);
+            SystemControllerInServer.Instance.blockCollectionMap[IpositionInMap[0]][IpositionInMap[1]][IpositionInMap[2]] = 0;
+
+            // 得点計算
+            ScoreAndTimeController.Instance.CalcAndChangeScoreAt(IpositionInMap);
+
+            // 非アクティブにする
+            blockUnitController.isActive = false;
+        }
+
+        public void EnableBlock(GameObject blockUnit)
+        {
+            if (isLocalPlayer)
+            {
+                CmdEnableBlock(blockUnit);
+            }
+        }
+
+        [Command]
+        private void CmdEnableBlock(GameObject blockUnit)
+        {
+            var blockUnitController = blockUnit.GetComponent<BlockUnitController>();
+            var positionInMap = blockUnitController.positionInMap;
+            var color = blockUnitController.color;
+
+            // map を更新する
+            Vector3Int IpositionInMap = new Vector3Int((int)positionInMap[0], (int)positionInMap[1], (int)positionInMap[2]);
+            SystemControllerInServer.Instance.blockCollectionMap[IpositionInMap[0]][IpositionInMap[1]][IpositionInMap[2]] = BlockCollectionData.colorToInt[color];
+
+            // 得点計算
+            ScoreAndTimeController.Instance.CalcAndChangeScoreAt(IpositionInMap);
+            // アクティブにする
+            blockUnitController.isActive = true;
         }
 
         public void DestroyBlock(GameObject obj)
@@ -360,7 +402,7 @@ namespace FromScratch
 
             print("CalcScore");
             // 得点計算
-            ScoreController.Instance.CalcAndChangeScoreAt(IpositionInMap);
+            ScoreAndTimeController.Instance.CalcAndChangeScoreAt(IpositionInMap);
 
             Destroy(blockUnit);
         }

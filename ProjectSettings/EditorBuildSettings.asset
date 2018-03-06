@@ -14,3 +14,6 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/TestObjectSettingWorldAnchor.unity
     guid: df6421402d2c6ff499630fd2623a947b
+  - enabled: 0
+    path: Assets/HoloToolkit-Examples/UX/Scenes/ObjectCollectionExample.unity
+    guid: abf81756e481fe149bc7b02d66273eff

@@ -21,9 +21,9 @@ namespace FromScratch
     /// 2. Undo/Redo 機能を保有（BlockHistoryManager）
     /// </summary>
 
-    public class BlockCollectionController : NetworkBehaviour
+    public class BlockCollectionController : NetworkBehaviour, ISpeechHandler
     {
-        public BlockHistoryManager blockHistoryManager;
+        public BlockHistoryManager blockHistoryManager = new BlockHistoryManager();
 
         private WorldAnchor worldAnchor;
         private bool isFirstWorldAnchorLocated = false;
@@ -64,6 +64,25 @@ namespace FromScratch
             _Instance = null;
         }
 
+        
+        public void OnSpeechKeywordRecognized(SpeechEventData eventData)
+        {
+            ChangeState(eventData.RecognizedText);
+        }
+
+        private void ChangeState(string command)
+        {
+            switch (command.ToLower())
+            {
+                case "undo":
+                    blockHistoryManager.Undo();
+                    break;
+                case "redo":
+                    blockHistoryManager.Redo();
+                    break;
+            }
+        }
+
         // Use this for initialization
         // Awake に書くことで、 Instantiate が呼ばれたらほかの処理が走る前に実行される
         void Awake()
@@ -71,47 +90,75 @@ namespace FromScratch
             
         }
 
+        void Start()
+        {
+            // set this speech manager as global listener
+            InputManager.Instance.AddGlobalListener(gameObject);
+
+            if (SharedCollection.Instance == null)
+            {
+                Debug.LogError("This script required a SharedCollection script attached to a gameobject in the scene");
+                Destroy(this);
+                return;
+            }
+
+            transform.SetParent(SharedCollection.Instance.transform, false);
+            transform.localPosition = localPos;
+            transform.localRotation = localRot;
+        }
+
         // Update is called once per frame
         void Update()
         {
+            //if(isServer)
+            //{
+            //    localPos = this.transform.localPosition;
+            //    localRot = this.transform.localRotation;
+            //} else
+            //{
+            //    this.transform.localPosition = localPos;
+            //    this.transform.localRotation = localRot;
+            //}
+
             // worldAnchor がちゃんと定まるまで続ける
-            if (!isFirstWorldAnchorLocated)
-            {
-                worldAnchor = SharedCollection.Instance.GetComponent<WorldAnchor>();
-                if (worldAnchor == null)
-                    return;
+            //if (!isFirstWorldAnchorLocated)
+            //{
+                //worldAnchor = SharedCollection.Instance.GetComponent<WorldAnchor>();
+                //if (worldAnchor == null)
+                //    return;
 
-                if (worldAnchor.isLocated)
-                {
-                    print("SetUp BlockCollectionController");
-                    if (SharedCollection.Instance == null)
-                    {
-                        Debug.LogError("This script required a SharedCollection script attached to a gameobject in the scene");
-                        Destroy(this);
-                        return;
-                    }
+                //if (worldAnchor.isLocated)
+                //{
+                //    print("SetUp BlockCollectionController");
+                //    if (SharedCollection.Instance == null)
+                //    {
+                //        Debug.LogError("This script required a SharedCollection script attached to a gameobject in the scene");
+                //        Destroy(this);
+                //        return;
+                //    }
 
-                    print("WorldAnchorPos");
-                    print(worldAnchor.transform.position);
+                //    print("WorldAnchorPos");
+                //    print(worldAnchor.transform.position);
 
-                    print("BlockCollectionPos");
-                    //サーバがオブジェクト生成時にlocalPositionを初期位置に設定しているので
-                    //localPositionを維持したまま、Parentを設定する。
-                    print(transform.position);
-                    print(transform.localPosition);
-                    print("AfterSetParent");
-                    transform.SetParent(SharedCollection.Instance.transform, false);
-                    print(transform.position);
-                    print(transform.localPosition);
-                    print("Set local pos manually");
-                    transform.localPosition = localPos;
-                    transform.localRotation = localRot;
-                    print(transform.position);
-                    print(transform.localPosition);
+                //    print("BlockCollectionPos");
+                //    //サーバがオブジェクト生成時にlocalPositionを初期位置に設定しているので
+                //    //localPositionを維持したまま、Parentを設定する。
+                //    print(transform.position);
+                //    print(transform.localPosition);
+                //    print("AfterSetParent");
+                //    transform.SetParent(SharedCollection.Instance.transform, false);
+                //    print(transform.position);
+                //    print(transform.localPosition);
+                //    print("Set local pos manually");
+                //    transform.localPosition = localPos;
+                //    transform.localRotation = localRot;
+                //    print(transform.position);
+                //    print(transform.localPosition);
 
-                }
-                isFirstWorldAnchorLocated = true;
-            }
+                //}
+                //isFirstWorldAnchorLocated = true;
+            //}
         }
+
     }
 }

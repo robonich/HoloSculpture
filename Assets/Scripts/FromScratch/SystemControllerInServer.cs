@@ -26,8 +26,9 @@ namespace FromScratch
         private GameObject worldAnchorObject;
         // これは一番最初の世界座標系における blockCollectionの初期座標
         // blockCollection 
-        private Vector3 blockCollectionInitialPos = new Vector3(0.7f, 0.5f, 1.5f);
-        private Vector3 sculptureModelInitialPos = new Vector3(-0.7f, 0.5f, 1.5f);
+        private Vector3 blockCollectionInitialPos = new Vector3(0.7f, -0.2f, 1.5f);
+        private Vector3 sculptureModelInitialPos = new Vector3(-0.7f, -0.2f, 1.5f);
+
         private WorldAnchor worldAnchor;
         private bool isFirstWorldAnchorLocated = false;
 
@@ -35,7 +36,6 @@ namespace FromScratch
         public int[][][] blockCollectionMap;
         public int[][][] sculptureMap;
         private BlockCollectionData data;
-        public BlockHistoryManager historyManager;
 
         private static SystemControllerInServer _Instance;
         public static SystemControllerInServer Instance
@@ -70,17 +70,17 @@ namespace FromScratch
 
         public void OnSpeechKeywordRecognized(SpeechEventData eventData)
         {
-            if (eventData.RecognizedText.ToLower() == "spawn")
+            switch (eventData.RecognizedText.ToLower())
             {
-                if(!isServer)
-                {
-                    print("You have no authority to spawn block collection");
-                    return;
-                }
-                //　次はここでステージ選択のことをする
-                ReadJsonAndGenerateMap();
-                SpawnBlockCollection();
-                ScoreController.Instance.InitializeScore();
+                case "start":
+                    StartGame();
+                    break;
+                case "retry":
+                    RetryGame();
+                    break;
+                case "reset":
+                    ResetGame();
+                    break;
             }
         }
 
@@ -168,7 +168,7 @@ namespace FromScratch
             SpawnBlocks();
         }
 
-        private void SpawnBlocks()
+        private void SpawnBlocks(bool onlyBlockCollection = false)
         {
             GameObject blockParent = BlockCollectionController.Instance.gameObject;
             GameObject sculpParent = SculptureModelController.Instance.gameObject;
@@ -209,19 +209,22 @@ namespace FromScratch
                             var blockUnitController = nextBlockUnit.GetComponent<BlockUnitController>();
                             blockUnitController.color = BlockCollectionData.colorDic[blockCollectionMap[z][y][x]];
                             blockUnitController.positionInMap = new Vector3(z, y, x);
-                            
+
                             NetworkServer.Spawn(nextBlockUnit);
                         }
 
-                        if (sculptureMap[z][y][x] > 0)
-                        {
-                            // 親は SculptureModel
-                            GameObject nextSculpBlock = (GameObject)Instantiate(sculptureBlockPrehab, current, sculpParent.transform.rotation);
-                            var sculptureBlockController = nextSculpBlock.GetComponent<SculptureBlockController>();
-                            sculptureBlockController.color = BlockCollectionData.colorDic[sculptureMap[z][y][x]];
+                        // BlockCollection だけを配置させたいときは、sculptureMap の配置を飛ばす
+                        if (!onlyBlockCollection) {
+                            if (sculptureMap[z][y][x] > 0)
+                            {
+                                // 親は SculptureModel
+                                GameObject nextSculpBlock = (GameObject)Instantiate(sculptureBlockPrehab, current, sculpParent.transform.rotation);
+                                var sculptureBlockController = nextSculpBlock.GetComponent<SculptureBlockController>();
+                                sculptureBlockController.color = BlockCollectionData.colorDic[sculptureMap[z][y][x]];
 
-                            NetworkServer.Spawn(nextSculpBlock);
-                        }
+                                NetworkServer.Spawn(nextSculpBlock);
+                            }
+                         }
                         current += deltaX;
                     }
                     current += deltaY;
@@ -229,6 +232,88 @@ namespace FromScratch
                 current += deltaZ;
             }
         }
+
+
+        public void StartGame()
+        {
+            if (!isServer)
+            {
+                print("Client has no authority to start a game");
+                return;
+            }
+            print("Start Game");
+            if (BlockCollectionController.Instance != null)
+            {
+                print("You have already spawned a BlockCollection.");
+                return;
+            }
+            //　次はここでステージ選択のことをする
+            ReadJsonAndGenerateMap();
+            SpawnBlockCollection();
+            ScoreAndTimeController.Instance.Initialize();
+        }
+
+        public void RetryGame()
+        {
+            if (!isServer)
+            {
+                print("Client has no authority to retry the game");
+                return;
+            }
+
+            print("Retry Game");
+
+            // BlockCollection の子オブジェクトを すべて enable する
+            // これは server でだけ行われる
+            var blockCollectionChildrenTransforms = BlockCollectionController.Instance.GetComponentsInChildren<Transform>();
+            for (int i = BlockCollectionController.Instance.transform.childCount - 1; i >= 0; --i)
+            {
+                var g = BlockCollectionController.Instance.transform.GetChild(i).gameObject;
+                if (g.name.Contains("BlockUnit"))
+                {
+                    g.GetComponent<BlockUnitController>().isActive = true;
+                }
+            }
+            
+            RpcResetHistoryManager();
+
+            // map の reset
+            for (int i = 0; i < blockCollectionMap.Length; i++)
+            {
+                for (int j = 0; j < blockCollectionMap[0].Length; j++)
+                {
+                    for (int k = 0; k < blockCollectionMap[0][0].Length; k++)
+                    {
+                        blockCollectionMap[i][j][k] = data.blockArrangement[i][j][k] == 0 ? 1 : data.blockArrangement[i][j][k];
+                    }
+                }
+            }
+
+            ScoreAndTimeController.Instance.Initialize();
+        }
+
+        [ClientRpc]
+        private void RpcResetHistoryManager()
+        {
+            print("Reset History Manager");
+            BlockCollectionController.Instance.blockHistoryManager.Reset();
+        }
+
+        public void ResetGame()
+        {
+            if (!isServer)
+            {
+                print("Client has no authority to reset the game");
+                return;
+            }
+            print("Reset Game");
+
+            // BlockCollection, SculptureModel を破壊する
+
+            Destroy(BlockCollectionController.Instance.gameObject);
+            Destroy(SculptureModelController.Instance.gameObject);
+        }
+
         private void Start()
         {
             // set this speech manager as global listener
