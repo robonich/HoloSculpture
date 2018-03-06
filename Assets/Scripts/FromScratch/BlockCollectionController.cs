@@ -59,9 +59,10 @@ namespace FromScratch
         /// SingleInstance should be sure to call base.OnDestroy() to ensure the
         /// underlying static _Instance reference is properly cleaned up.
         /// </summary>
-        protected virtual void OnDestroy()
+        protected void OnDestroy()
         {
             _Instance = null;
+            
         }
 
         

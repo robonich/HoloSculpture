@@ -247,6 +247,10 @@ namespace FromScratch
                 print("You have already spawned a BlockCollection.");
                 return;
             }
+
+            // UI と ObjectInClient の有効化
+            RpcEnableObjectsInClient();
+
             //　次はここでステージ選択のことをする
             ReadJsonAndGenerateMap();
             SpawnBlockCollection();
@@ -293,6 +297,18 @@ namespace FromScratch
         }
 
         [ClientRpc]
+        private void RpcEnableObjectsInClient()
+        {
+            ObjectVisibleManager.Instance.EnableObjects();
+        }
+
+        [ClientRpc]
+        private void RpcDisableObjectsInClient()
+        {
+            ObjectVisibleManager.Instance.DisableObjects();
+        }
+
+        [ClientRpc]
         private void RpcResetHistoryManager()
         {
             print("Reset History Manager");
@@ -312,6 +328,9 @@ namespace FromScratch
 
             Destroy(BlockCollectionController.Instance.gameObject);
             Destroy(SculptureModelController.Instance.gameObject);
+
+            // UI と ObjectInClient の無効化
+            RpcDisableObjectsInClient();
         }
 
         private void Start()
