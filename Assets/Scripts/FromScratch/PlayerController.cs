@@ -448,5 +448,20 @@ namespace FromScratch
                 CmdSendSharedTransform(target, pos, rot);
             }
         }
+        
+        [Command]
+        private void CmdSelectStage(string stageName, string playerName)
+        {
+            SystemControllerInServer.Instance.PlayerSelectStage(stageName, playerName);
+        }
+        
+        public void SelectStage(string stageName)
+        {
+            if (isLocalPlayer)
+            {
+                print(PlayerName + " Selected " + stageName);
+                CmdSelectStage(stageName, PlayerName);
+            }
+        }
     }
 }

@@ -12,18 +12,21 @@ namespace FromScratch
         private SystemControllerInServer systemControllerInServer;
         [SyncVar]
         private int score = 0;
+        private int finalScore = 0;
         private int initialScore = 0;
+        private int maxScore = 1;
 
         private int startTime;
         private int now;
+        private int timeBonusDelta = 2;
         [SyncVar]
         private int leftTime = 120;
         private int initialLeftTime = 120;
         public Text timeText;
         public Text scoreText;
         public Image timerImage;
-        [SyncVar]
-        public bool hasInitialized = false;
+        public Text finalScoreText;
+        
 
         private static ScoreAndTimeController _Instance;
         public static ScoreAndTimeController Instance
@@ -59,10 +62,15 @@ namespace FromScratch
         /// <summary>
         /// スコア初期化の
         /// </summary>
-        public void Initialize()
+        public void Initialize(bool withoutLeftTime=false)
         {
             score = initialScore;
-            leftTime = initialLeftTime;
+            maxScore = initialScore;
+            if (!withoutLeftTime)
+            {
+                leftTime = initialLeftTime;
+                startTime = DateTime.Now.Hour * 60 * 60 + DateTime.Now.Minute * 60 + DateTime.Now.Second;
+            }
             // score 計算は server だけ
             if (isServer)
             {
@@ -79,13 +87,11 @@ namespace FromScratch
                             {
                                 score++;
                             }
+                            maxScore++;
                         }
                     }
                 }
 
-                startTime = DateTime.Now.Hour * 60 * 60 + DateTime.Now.Minute * 60 + DateTime.Now.Second;
-
-                hasInitialized = true;
             }
         }
 
@@ -94,12 +100,6 @@ namespace FromScratch
             // score 計算は server だけ
             if (isServer)
             {
-                // もしまだスコアが初期化されていなかったら計算しない
-                if (!hasInitialized)
-                {
-                    print("Score has not been initialized");
-                    return;
-                }
                 if (systemControllerInServer.sculptureMap[position[0]][position[1]][position[2]] == systemControllerInServer.blockCollectionMap[position[0]][position[1]][position[2]])
                 {
                     score++;
@@ -112,26 +112,64 @@ namespace FromScratch
             
         }
 
+        public bool CheckIsGameEnd()
+        {
+            return (leftTime <= 0 || score == maxScore); 
+        }
+
         // Use this for initialization
         void Start()
         {
-            timerImage.enabled = false;
+        }
+
+        private void UpdateTimer()
+        {
+            now = DateTime.Now.Hour * 60 * 60 + DateTime.Now.Minute * 60 + DateTime.Now.Second;
+            leftTime -= now - startTime;
+            startTime = now;
+        }
+
+        private void ShowScoreAndTime()
+        {
+            scoreText.text = "Score: " + score.ToString();
+            timeText.text = leftTime.ToString();
+        }
+
+        private void CalcAndShowFinalScore()
+        {
+            var timeBonus = leftTime * timeBonusDelta;
+            finalScore = score + timeBonus;
+            finalScoreText.text = String.Format("{0} pt\n{1} x {2} pt = {3} pt\n\n{4} pt",
+                score, leftTime, timeBonusDelta, timeBonus, finalScore);
         }
 
         // Update is called once per frame
         void Update()
         {
-
             // 得点表示
-            if (hasInitialized)
+            switch (GameStateManager.Instance.gameState)
             {
-                scoreText.text = "Score: " + score.ToString();
-                now = DateTime.Now.Hour * 60 * 60 + DateTime.Now.Minute * 60 + DateTime.Now.Second;
-                leftTime -= now - startTime;
-                startTime = now;
-                timeText.text = leftTime.ToString();
-                timerImage.enabled = true;
+                case GameState.PlayModeSelection:
+                    break;
+                case GameState.StageSelection:
+                    break;
+                case GameState.Playing:
+                    UpdateTimer();
+                    ShowScoreAndTime();
+
+                    if (isServer)
+                    {
+                        if (CheckIsGameEnd())
+                        {
+                            SystemControllerInServer.Instance.EndPlaying();
+                        }
+                    }
+                    break;
+                case GameState.Result:
+                    CalcAndShowFinalScore();
+                    break;
             }
+            
         }
     }
 }

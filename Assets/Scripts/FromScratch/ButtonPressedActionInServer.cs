@@ -14,25 +14,20 @@ namespace FromScratch
 
         public void OnInputClicked(InputClickedEventData eventData)
         {
+            print("Pressed Button");
+
             switch (actionName)
             {
                 case "reset":
-                    if (isServer)
-                    {
-                        SystemControllerInServer.Instance.ResetGame();
-                    }
+                    print("reset");
+                    SystemControllerInServer.Instance.ResetGame();
                     break;
                 case "retry":
-                    if (isServer)
-                    {
-                        SystemControllerInServer.Instance.RetryGame();
-                    }
+                    print("retry");
+                    SystemControllerInServer.Instance.RetryGame();
                     break;
-                case "start":
-                    if (isServer)
-                    {
-                        SystemControllerInServer.Instance.StartGame();
-                    }
+                case "backToStageSelection":
+                    SystemControllerInServer.Instance.EndResult();
                     break;
             }
         }

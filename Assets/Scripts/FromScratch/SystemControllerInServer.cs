@@ -1,28 +1,26 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using System.IO;
-using Newtonsoft.Json;
-using UnityEngine.Networking;
+﻿using HoloToolkit.Unity.InputModule;
 using HoloToolkit.Unity.SharingWithUNET;
-using HoloToolkit.Unity.InputModule;
+using Newtonsoft.Json;
+using System.IO;
+using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.XR.WSA;
-using UnityEngine.XR.WSA.Persistence;
-using UnityEngine.XR.WSA.Sharing;
 
 
 namespace FromScratch
 {
     /// <summary>
-    /// ゲームを開始したとき（サーバーを建てたとき）にブロックを初期化する
-    /// spawn させたいのでここでやる
+    /// いろいろな集中管理をする場所
     /// </summary>
-    public class SystemControllerInServer : NetworkBehaviour, ISpeechHandler
+    public class SystemControllerInServer : NetworkBehaviour
     {
         public GameObject blockCollectionPrehab;
         public GameObject blockUnitPrehab;
         public GameObject sculptureModelPrehab;
         public GameObject sculptureBlockPrehab;
+        public GameObject ObjectCollectionButtonsInServer;
+        public GameObject ObjectCollectionButtonsOfPlayModes;
+        public GameObject GoBackToStageSelectionButton;
         private GameObject worldAnchorObject;
         // これは一番最初の世界座標系における blockCollectionの初期座標
         // blockCollection 
@@ -32,10 +30,14 @@ namespace FromScratch
         private WorldAnchor worldAnchor;
         private bool isFirstWorldAnchorLocated = false;
 
-        public string JsonFileName;
+        private string[] stageName = { "model1", "model2" };
+
+        private string JsonFileName;
         public int[][][] blockCollectionMap;
         public int[][][] sculptureMap;
         private BlockCollectionData data;
+
+        private PlayMode playMode;
 
         private static SystemControllerInServer _Instance;
         public static SystemControllerInServer Instance
@@ -68,21 +70,21 @@ namespace FromScratch
             _Instance = null;
         }
 
-        public void OnSpeechKeywordRecognized(SpeechEventData eventData)
-        {
-            switch (eventData.RecognizedText.ToLower())
-            {
-                case "start":
-                    StartGame();
-                    break;
-                case "retry":
-                    RetryGame();
-                    break;
-                case "reset":
-                    ResetGame();
-                    break;
-            }
-        }
+        //public void OnSpeechKeywordRecognized(SpeechEventData eventData)
+        //{
+        //    switch (eventData.RecognizedText.ToLower())
+        //    {
+        //        case "start":
+        //            StartGame();
+        //            break;
+        //        case "retry":
+        //            RetryGame();
+        //            break;
+        //        case "reset":
+        //            ResetGame();
+        //            break;
+        //    }
+        //}
 
         private void ReadJsonAndGenerateMap()
         {
@@ -233,29 +235,31 @@ namespace FromScratch
             }
         }
 
+        //public void StartGame()
+        //{
+        //    if (!isServer)
+        //    {
+        //        print("Client has no authority to start a game");
+        //        return;
+        //    }
+        //    print("Start Game");
+        //    if (BlockCollectionController.Instance != null)
+        //    {
+        //        print("You have already spawned a BlockCollection.");
+        //        return;
+        //    }
 
-        public void StartGame()
-        {
-            if (!isServer)
-            {
-                print("Client has no authority to start a game");
-                return;
-            }
-            print("Start Game");
-            if (BlockCollectionController.Instance != null)
-            {
-                print("You have already spawned a BlockCollection.");
-                return;
-            }
+        //    // GameStateの変更
+        //    GameStateManager.Instance.gameState = GameState.Playing;
 
-            // UI と ObjectInClient の有効化
-            RpcEnableObjectsInClient();
+        //    // Playing のオブジェクトの有効化
+        //    RpcSetActivenessOfObjects(GameStateManager.Instance.gameState);
 
-            //　次はここでステージ選択のことをする
-            ReadJsonAndGenerateMap();
-            SpawnBlockCollection();
-            ScoreAndTimeController.Instance.Initialize();
-        }
+        //    //　次はここでステージ選択のことをする
+        //    ReadJsonAndGenerateMap();
+        //    SpawnBlockCollection();
+        //    ScoreAndTimeController.Instance.Initialize();
+        //}
 
         public void RetryGame()
         {
@@ -293,19 +297,16 @@ namespace FromScratch
                 }
             }
 
-            ScoreAndTimeController.Instance.Initialize();
+            // retry のときは時間をリセットしない
+            ScoreAndTimeController.Instance.Initialize(withoutLeftTime: true);
         }
 
         [ClientRpc]
-        private void RpcEnableObjectsInClient()
+        private void RpcSetActivenessOfObjects(GameState state)
         {
-            ObjectVisibleManager.Instance.EnableObjects();
-        }
-
-        [ClientRpc]
-        private void RpcDisableObjectsInClient()
-        {
-            ObjectVisibleManager.Instance.DisableObjects();
+            print("Set activeness of objects");
+            print(state);
+            ObjectVisibleManager.Instance.SetActivenessOfObjects(state);
         }
 
         [ClientRpc]
@@ -325,18 +326,125 @@ namespace FromScratch
             print("Reset Game");
 
             // BlockCollection, SculptureModel を破壊する
-
             Destroy(BlockCollectionController.Instance.gameObject);
             Destroy(SculptureModelController.Instance.gameObject);
 
-            // UI と ObjectInClient の無効化
-            RpcDisableObjectsInClient();
+            print("BlockCollectionController Instance is ");
+            print(BlockCollectionController.Instance);
+
+            // StageSelection を開始する
+            ObjectCollectionButtonsInServer.SetActive(false);
+            StartStageSelection();
         }
+
+        // PlayModeSelection 関連スタート
+        private void StartPlayModeSelection()
+        {
+            GameStateManager.Instance.gameState = GameState.PlayModeSelection;
+            // これはサーバーだけなのでここで有効化
+            ObjectCollectionButtonsOfPlayModes.SetActive(true);
+            RpcSetActivenessOfObjects(GameStateManager.Instance.gameState);
+        }
+
+        public void SetSinglePlayMode()
+        {
+            playMode = PlayMode.Single;
+            EndPlayModeSelection();
+        }
+
+        public void SetMultiPlayMode()
+        {
+            playMode = PlayMode.Multi;
+            EndPlayModeSelection();
+        }
+
+        private void EndPlayModeSelection()
+        {
+            // これはサーバーだけなのでここで無効化
+            ObjectCollectionButtonsOfPlayModes.SetActive(false);
+            // 次に stageSelection を走らせる
+            StartStageSelection();
+        }
+        // PlayModeSelection 関連終わり
+
+        // StageSelection 関連スタート
+        private void StartStageSelection()
+        {
+            GameStateManager.Instance.gameState = GameState.StageSelection;
+            // StageSelection のオブジェクトを有効化
+            RpcSetActivenessOfObjects(GameStateManager.Instance.gameState);
+        }
+
+        public void PlayerSelectStage(string stageName, string playerName)
+        {
+            // ここに stageName ごとに dictionary を持たせて、その値として playerName の配列を持たせる
+            // もしいずれかの stageName の値が single なら 1, multi なら 2 以上の長さとなっていれば、ゲームを開始させる
+
+            // ここにその判定の条件文を書く
+            if (true)
+            {
+                JsonFileName = stageName.ToLower() + ".json";
+                EndStageSelection();
+            }
+        }
+
+        private void EndStageSelection()
+        {
+            StartPlaying();
+        }
+        // StageSelection 関連終わり
+
+        // Playing 関連スタート
+        public void StartPlaying()
+        {
+            print("Start Game");
+            if (BlockCollectionController.Instance != null)
+            {
+                print("You have already spawned a BlockCollection.");
+                return;
+            }
+
+            // GameStateの変更
+            GameStateManager.Instance.gameState = GameState.Playing;
+
+            // Playing のオブジェクトの有効化
+            RpcSetActivenessOfObjects(GameStateManager.Instance.gameState);
+            ObjectCollectionButtonsInServer.SetActive(true);
+
+            //　次はここでステージ選択をする
+            ReadJsonAndGenerateMap();
+            SpawnBlockCollection();
+            ScoreAndTimeController.Instance.Initialize();
+        }
+
+        public void EndPlaying()
+        {
+            ObjectCollectionButtonsInServer.SetActive(false);
+            StartResult();
+        }
+        // Playing 関連終わり
+
+        // Result 関連スタート
+        private void StartResult()
+        {
+            GameStateManager.Instance.gameState = GameState.Result;
+            RpcSetActivenessOfObjects(GameStateManager.Instance.gameState);
+            GoBackToStageSelectionButton.SetActive(true);
+        }
+
+        public void EndResult()
+        {
+            GoBackToStageSelectionButton.SetActive(false);
+            ResetGame();
+        }
+        // Result 関連終わり
 
         private void Start()
         {
             // set this speech manager as global listener
             InputManager.Instance.AddGlobalListener(gameObject);
+            StartPlayModeSelection();
         }
+        
     }
 }

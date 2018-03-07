@@ -8,7 +8,6 @@ namespace FromScratch
 {
     public class ObjectVisibleManager : NetworkBehaviour
     {
-
         private static ObjectVisibleManager _Instance;
         public static ObjectVisibleManager Instance
         {
@@ -40,7 +39,10 @@ namespace FromScratch
             _Instance = null;
         }
 
-        public List<GameObject> objectsShouldBeVisibleAfterServerStart;
+        public List<GameObject> objectsShouldBeVisibleAtPlayModeSelection;
+        public List<GameObject> objectsShouldBeVisibleAtStageSelection;
+        public List<GameObject> objectsShouldBeVisibleAtPlaying;
+        public List<GameObject> objectsShouldBeVisibleAtResult;
 
         // Use this for initialization
         void Start()
@@ -48,26 +50,54 @@ namespace FromScratch
             
         }
 
-        public void EnableObjects()
+        public void SetActivenessOfObjects(GameState state)
         {
-            foreach(var obj in objectsShouldBeVisibleAfterServerStart)
+            print("In client");
+            switch(state)
             {
-                obj.SetActive(true);
+                case GameState.PlayModeSelection:
+                    print("Enable PlayModeSelection Objects");
+                    ChangeActivenessOfList(objectsShouldBeVisibleAtPlayModeSelection, true);
+                    ChangeActivenessOfList(objectsShouldBeVisibleAtStageSelection, false);
+                    ChangeActivenessOfList(objectsShouldBeVisibleAtPlaying, false);
+                    ChangeActivenessOfList(objectsShouldBeVisibleAtResult, false);
+                    break;
+                case GameState.StageSelection:
+                    print("Enable StageSelection Objects");
+                    ChangeActivenessOfList(objectsShouldBeVisibleAtPlayModeSelection, false);
+                    ChangeActivenessOfList(objectsShouldBeVisibleAtStageSelection, true);
+                    ChangeActivenessOfList(objectsShouldBeVisibleAtPlaying, false);
+                    ChangeActivenessOfList(objectsShouldBeVisibleAtResult, false);
+                    break;
+                case GameState.Playing:
+                    print("Enable Playing Objects");
+                    ChangeActivenessOfList(objectsShouldBeVisibleAtPlayModeSelection, false);
+                    ChangeActivenessOfList(objectsShouldBeVisibleAtStageSelection, false);
+                    ChangeActivenessOfList(objectsShouldBeVisibleAtPlaying, true);
+                    ChangeActivenessOfList(objectsShouldBeVisibleAtResult, false);
+                    break;
+                case GameState.Result:
+                    print("Enable Result Objects");
+                    ChangeActivenessOfList(objectsShouldBeVisibleAtPlayModeSelection, false);
+                    ChangeActivenessOfList(objectsShouldBeVisibleAtStageSelection, false);
+                    ChangeActivenessOfList(objectsShouldBeVisibleAtPlaying, false);
+                    ChangeActivenessOfList(objectsShouldBeVisibleAtResult, true);
+                    break;
             }
         }
 
-        public void DisableObjects()
+        private void ChangeActivenessOfList(List<GameObject> objects, bool isActive)
         {
-            foreach(var obj in objectsShouldBeVisibleAfterServerStart)
+            foreach(var obj in objects)
             {
-                obj.SetActive(false);
+                obj.SetActive(isActive);
             }
         }
         
         // Update is called once per frame
         void Update()
         {
-
+            
         }
     }
 }

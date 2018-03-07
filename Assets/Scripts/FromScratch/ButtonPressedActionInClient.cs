@@ -20,6 +20,12 @@ namespace FromScratch {
                 case "redo":
                     BlockCollectionController.Instance.blockHistoryManager.Redo();
                     break;
+                case "stage1":
+                    PlayerController.Instance.SelectStage("stage1");
+                    break;
+                case "stage2":
+                    PlayerController.Instance.SelectStage("stage2");
+                    break;
             }
         }
 
@@ -30,7 +36,7 @@ namespace FromScratch {
 
         // Update is called once per frame
         void Update() {
-
+            
         }
     }
 }
