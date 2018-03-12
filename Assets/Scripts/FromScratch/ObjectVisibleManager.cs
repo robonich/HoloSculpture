@@ -50,10 +50,16 @@ namespace FromScratch
             
         }
 
-        public void SetActivenessOfObjects(GameState state)
+        [ClientRpc]
+        public void RpcSetActivenessOfObjects(GameState state)
         {
             print("In client");
-            switch(state)
+            SetActivenessOfObjects(state);
+        }
+
+        public void SetActivenessOfObjects(GameState state)
+        {
+            switch (state)
             {
                 case GameState.PlayModeSelection:
                     print("Enable PlayModeSelection Objects");

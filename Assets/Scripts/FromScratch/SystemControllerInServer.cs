@@ -21,6 +21,7 @@ namespace FromScratch
         public GameObject ObjectCollectionButtonsInServer;
         public GameObject ObjectCollectionButtonsOfPlayModes;
         public GameObject GoBackToStageSelectionButton;
+        public GameObject StartStageButton;
         private GameObject worldAnchorObject;
         // これは一番最初の世界座標系における blockCollectionの初期座標
         // blockCollection 
@@ -30,14 +31,14 @@ namespace FromScratch
         private WorldAnchor worldAnchor;
         private bool isFirstWorldAnchorLocated = false;
 
-        private string[] stageName = { "model1", "model2" };
+        private string[] stageName = { "stage1", "stage2" };
 
         private string JsonFileName;
         public int[][][] blockCollectionMap;
         public int[][][] sculptureMap;
         private BlockCollectionData data;
 
-        private PlayMode playMode;
+        public PlayMode playMode;
 
         private static SystemControllerInServer _Instance;
         public static SystemControllerInServer Instance
@@ -283,7 +284,7 @@ namespace FromScratch
                 }
             }
             
-            RpcResetHistoryManager();
+            ResetHistoryManager();
 
             // map の reset
             for (int i = 0; i < blockCollectionMap.Length; i++)
@@ -300,20 +301,16 @@ namespace FromScratch
             // retry のときは時間をリセットしない
             ScoreAndTimeController.Instance.Initialize(withoutLeftTime: true);
         }
-
-        [ClientRpc]
-        private void RpcSetActivenessOfObjects(GameState state)
+        
+        private void SetActivenessOfObjects(GameState state)
         {
-            print("Set activeness of objects");
-            print(state);
-            ObjectVisibleManager.Instance.SetActivenessOfObjects(state);
+            ObjectVisibleManager.Instance.RpcSetActivenessOfObjects(state);
         }
-
-        [ClientRpc]
-        private void RpcResetHistoryManager()
+        
+        private void ResetHistoryManager()
         {
             print("Reset History Manager");
-            BlockCollectionController.Instance.blockHistoryManager.Reset();
+            BlockCollectionController.Instance.RpcResetHistoryManager();
         }
 
         public void ResetGame()
@@ -343,7 +340,7 @@ namespace FromScratch
             GameStateManager.Instance.gameState = GameState.PlayModeSelection;
             // これはサーバーだけなのでここで有効化
             ObjectCollectionButtonsOfPlayModes.SetActive(true);
-            RpcSetActivenessOfObjects(GameStateManager.Instance.gameState);
+            SetActivenessOfObjects(GameStateManager.Instance.gameState);
         }
 
         public void SetSinglePlayMode()
@@ -372,24 +369,35 @@ namespace FromScratch
         {
             GameStateManager.Instance.gameState = GameState.StageSelection;
             // StageSelection のオブジェクトを有効化
-            RpcSetActivenessOfObjects(GameStateManager.Instance.gameState);
+            SetActivenessOfObjects(GameStateManager.Instance.gameState);
+            StartStageButton.SetActive(true);
+
+            // 値を一回全デバイスでリセットする
+            StageSelectionManager.Instance.RpcResetStageSelection();
         }
 
         public void PlayerSelectStage(string stageName, string playerName)
         {
-            // ここに stageName ごとに dictionary を持たせて、その値として playerName の配列を持たせる
-            // もしいずれかの stageName の値が single なら 1, multi なら 2 以上の長さとなっていれば、ゲームを開始させる
+            // だれかが stage を選択するたびにその変更を知らせて update させる
+            StageSelectionManager.Instance.RpcAddPlayerToStage(stageName, playerName);
+        }
 
-            // ここにその判定の条件文を書く
-            if (true)
+        // only by host
+        public void SelectStartStageButton()
+        {
+            if (StageSelectionManager.Instance.status == StageSelectionStatus.StartStage)
             {
-                JsonFileName = stageName.ToLower() + ".json";
+                JsonFileName = StageSelectionManager.Instance.MostPopularStage().ToLower() + ".json";
                 EndStageSelection();
+            } else
+            {
+                print("You still cannot start stage");
             }
         }
 
         private void EndStageSelection()
         {
+            StartStageButton.SetActive(false);
             StartPlaying();
         }
         // StageSelection 関連終わり
@@ -408,7 +416,7 @@ namespace FromScratch
             GameStateManager.Instance.gameState = GameState.Playing;
 
             // Playing のオブジェクトの有効化
-            RpcSetActivenessOfObjects(GameStateManager.Instance.gameState);
+            SetActivenessOfObjects(GameStateManager.Instance.gameState);
             ObjectCollectionButtonsInServer.SetActive(true);
 
             //　次はここでステージ選択をする
@@ -428,7 +436,7 @@ namespace FromScratch
         private void StartResult()
         {
             GameStateManager.Instance.gameState = GameState.Result;
-            RpcSetActivenessOfObjects(GameStateManager.Instance.gameState);
+            SetActivenessOfObjects(GameStateManager.Instance.gameState);
             GoBackToStageSelectionButton.SetActive(true);
         }
 

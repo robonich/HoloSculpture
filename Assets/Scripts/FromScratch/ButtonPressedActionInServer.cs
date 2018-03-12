@@ -29,6 +29,9 @@ namespace FromScratch
                 case "backToStageSelection":
                     SystemControllerInServer.Instance.EndResult();
                     break;
+                case "startStage":
+                    SystemControllerInServer.Instance.SelectStartStageButton();
+                    break;
             }
         }
 

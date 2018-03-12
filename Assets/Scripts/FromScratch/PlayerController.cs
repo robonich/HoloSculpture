@@ -34,6 +34,10 @@ namespace FromScratch
         /// </summary>
         public GameObject bullet;
 
+        [SyncVar]
+        public string selectedStage = "";
+        public string preSelectedStage =  "";
+
         public bool CanShareAnchors;
 
         /// <summary>
@@ -129,7 +133,11 @@ namespace FromScratch
         void PlayerNameChanged(string update)
         {
             Debug.LogFormat("Player name changing from {0} to {1}", PlayerName, update);
-            PlayerName = update;
+            if (isLocalPlayer)
+            {
+                PlayerName = update;
+            }
+            StageSelectionManager.Instance.SetLocalPlayerName(update);
             // Special case for spectator view
             if (PlayerName.ToLower() == "spectatorviewpc")
             {
@@ -232,6 +240,23 @@ namespace FromScratch
 
         private void Update()
         {
+            //// Stage Selection に関する記述
+            //if (GameStateManager.Instance.gameState == GameState.StageSelection)
+            //{
+            //    if(preSelectedStage != selectedStage)
+            //    {
+            //        preSelectedStage = selectedStage;
+            //        if(isLocalPlayer)
+            //        {
+            //            StageSelectionManager.Instance.AddPlayerToStage(selectedStage, "You");
+            //        } else
+            //        {
+            //            StageSelectionManager.Instance.AddPlayerToStage(selectedStage, PlayerName);
+            //        }
+            //    }
+            //}
+
+
             // If we aren't the local player, we just need to make sure that the position of this object is set properly
             // so that we properly render their avatar in our world.
             if (!isLocalPlayer && string.IsNullOrEmpty(PlayerName) == false)
@@ -453,6 +478,7 @@ namespace FromScratch
         private void CmdSelectStage(string stageName, string playerName)
         {
             SystemControllerInServer.Instance.PlayerSelectStage(stageName, playerName);
+            selectedStage = stageName;
         }
         
         public void SelectStage(string stageName)

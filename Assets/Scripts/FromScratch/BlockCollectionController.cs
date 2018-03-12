@@ -25,9 +25,6 @@ namespace FromScratch
     {
         public BlockHistoryManager blockHistoryManager = new BlockHistoryManager();
 
-        private WorldAnchor worldAnchor;
-        private bool isFirstWorldAnchorLocated = false;
-
         [SyncVar]
         public Vector3 localPos;
         [SyncVar]
@@ -91,6 +88,13 @@ namespace FromScratch
             
         }
 
+        [ClientRpc]
+        public void RpcResetHistoryManager()
+        {
+            print("Reset History Manager");
+            BlockCollectionController.Instance.blockHistoryManager.Reset();
+        }
+
         void Start()
         {
             // set this speech manager as global listener
@@ -111,54 +115,6 @@ namespace FromScratch
         // Update is called once per frame
         void Update()
         {
-            //if(isServer)
-            //{
-            //    localPos = this.transform.localPosition;
-            //    localRot = this.transform.localRotation;
-            //} else
-            //{
-            //    this.transform.localPosition = localPos;
-            //    this.transform.localRotation = localRot;
-            //}
-
-            // worldAnchor がちゃんと定まるまで続ける
-            //if (!isFirstWorldAnchorLocated)
-            //{
-                //worldAnchor = SharedCollection.Instance.GetComponent<WorldAnchor>();
-                //if (worldAnchor == null)
-                //    return;
-
-                //if (worldAnchor.isLocated)
-                //{
-                //    print("SetUp BlockCollectionController");
-                //    if (SharedCollection.Instance == null)
-                //    {
-                //        Debug.LogError("This script required a SharedCollection script attached to a gameobject in the scene");
-                //        Destroy(this);
-                //        return;
-                //    }
-
-                //    print("WorldAnchorPos");
-                //    print(worldAnchor.transform.position);
-
-                //    print("BlockCollectionPos");
-                //    //サーバがオブジェクト生成時にlocalPositionを初期位置に設定しているので
-                //    //localPositionを維持したまま、Parentを設定する。
-                //    print(transform.position);
-                //    print(transform.localPosition);
-                //    print("AfterSetParent");
-                //    transform.SetParent(SharedCollection.Instance.transform, false);
-                //    print(transform.position);
-                //    print(transform.localPosition);
-                //    print("Set local pos manually");
-                //    transform.localPosition = localPos;
-                //    transform.localRotation = localRot;
-                //    print(transform.position);
-                //    print(transform.localPosition);
-
-                //}
-                //isFirstWorldAnchorLocated = true;
-            //}
         }
 
     }
