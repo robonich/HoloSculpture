@@ -178,7 +178,7 @@ namespace FromScratch
 
             print("Spawn BlockUnits");
             Vector3 initialScale = new Vector3(data.initialBlockSize[0], data.initialBlockSize[1], data.initialBlockSize[2]);
-            Vector3 initialPos = new Vector3(data.initialPosition[0], data.initialPosition[1], data.initialPosition[2]) - new Vector3(initialScale.x * data.blockArrangement[0][0].Length, 0, 0);
+            Vector3 initialPos = new Vector3(data.initialPosition[0], data.initialPosition[1], data.initialPosition[2]) - new Vector3(initialScale.x * data.blockArrangement[0][0].Length / 2.0f, initialScale.y * data.blockArrangement[0][0].Length / 2.0f, initialScale.z * data.blockArrangement[0][0].Length / 2.0f);
             // Quartenion だからこの方向の定義はいらんかも
             Vector3 initialRot = new Vector3(data.initialRotation[0], data.initialRotation[1], data.initialRotation[2]);
 
@@ -210,6 +210,7 @@ namespace FromScratch
 
                             // localplayer 側で色などの情報は持たせておく
                             var blockUnitController = nextBlockUnit.GetComponent<BlockUnitController>();
+                            blockUnitController.scale = initialScale;
                             blockUnitController.color = BlockCollectionData.colorDic[blockCollectionMap[z][y][x]];
                             blockUnitController.positionInMap = new Vector3(z, y, x);
 

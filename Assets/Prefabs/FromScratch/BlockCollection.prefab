@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4098828322740630}
   - component: {fileID: 114843277457890324}
   - component: {fileID: 114272496098265520}
+  - component: {fileID: 114356796397683310}
   m_Layer: 0
   m_Name: BlockCollection
   m_TagString: Untagged
@@ -52,8 +53,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a9dae41ac5ad46499433b626e9a5aa9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  JsonFileName: model1.json
-  BlockUnit: {fileID: 1655555573600126, guid: 860189450cc7b7d448cb10af636215e0, type: 2}
+  localPos: {x: 0, y: 0, z: 0}
+  localRot: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &114356796397683310
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1226626430257378}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52a72bdb251e5ce488e5c51f0a9c657b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Cursor: {fileID: 0}
+  DirectionIndicatorObject: {fileID: 133742, guid: e123cce6ed201f447a1a4b3346f242e9,
+    type: 2}
+  DirectionIndicatorColor: {r: 0, g: 0, b: 1, a: 1}
+  VisibilitySafeFactor: 0.1
+  MetersFromCursor: 0.3
 --- !u!114 &114843277457890324
 MonoBehaviour:
   m_ObjectHideFlags: 1

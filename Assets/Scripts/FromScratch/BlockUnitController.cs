@@ -16,6 +16,8 @@ namespace FromScratch
         [SyncVar]
         public Color color;
         [SyncVar]
+        public Vector3 scale;
+        [SyncVar]
         public Vector3 positionInMap;
         [SyncVar]
         public bool isActive;
@@ -65,6 +67,7 @@ namespace FromScratch
 
             //サーバがオブジェクト生成時にlocalPositionを初期位置に設定しているので
             //localPositionを維持したまま、Parentを設定する。
+            transform.localScale = scale;
             transform.SetParent(BlockCollectionController.Instance.transform, false);
             GetComponent<Renderer>().material.SetColor("_Color", color);
 
@@ -77,7 +80,7 @@ namespace FromScratch
 
         private void OnDestroy()
         {
-            Instantiate(breakAudio, this.gameObject.transform.position, this.gameObject.transform.rotation);
+            //Instantiate(breakAudio, this.gameObject.transform.position, this.gameObject.transform.rotation);
         }
 
         void Update()

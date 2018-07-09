@@ -1,7 +1,7 @@
 {
   "initialPosition": [ 0, 0, 0 ],
   "initialRotation": [ 0, 0, 0 ],
-  "initialBlockSize": [ 0.1, 0.1, 0.1 ],
+  "initialBlockSize": [ 0.08, 0.08, 0.08 ],
   "blockArrangement": [
     [
       [ 1, 1, 1, 1, 1, 1, 1, 1 ],

@@ -133,11 +133,7 @@ namespace FromScratch
         void PlayerNameChanged(string update)
         {
             Debug.LogFormat("Player name changing from {0} to {1}", PlayerName, update);
-            if (isLocalPlayer)
-            {
-                PlayerName = update;
-            }
-            StageSelectionManager.Instance.SetLocalPlayerName(update);
+            PlayerName = update;
             // Special case for spectator view
             if (PlayerName.ToLower() == "spectatorviewpc")
             {
@@ -255,6 +251,11 @@ namespace FromScratch
             //        }
             //    }
             //}
+
+            if(isLocalPlayer)
+            {
+                StageSelectionManager.Instance.SetLocalPlayerName(PlayerName);
+            }
 
 
             // If we aren't the local player, we just need to make sure that the position of this object is set properly

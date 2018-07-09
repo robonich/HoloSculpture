@@ -14,6 +14,7 @@ namespace FromScratch
         private int score = 0;
         private int finalScore = 0;
         private int initialScore = 0;
+        [SyncVar]
         private int maxScore = 1;
 
         private int startTime;
@@ -61,11 +62,10 @@ namespace FromScratch
 
         /// <summary>
         /// スコア初期化の
+        /// サーバーにしか呼ばれていない
         /// </summary>
         public void Initialize(bool withoutLeftTime=false)
         {
-            score = initialScore;
-            maxScore = initialScore;
             if (!withoutLeftTime)
             {
                 leftTime = initialLeftTime;
@@ -74,6 +74,8 @@ namespace FromScratch
             // score 計算は server だけ
             if (isServer)
             {
+                score = initialScore;
+                maxScore = initialScore;
                 systemControllerInServer = SystemControllerInServer.Instance;
                 print("Initialize score");
                 score = 0;
@@ -114,7 +116,7 @@ namespace FromScratch
 
         public bool CheckIsGameEnd()
         {
-            return (leftTime <= 0 || score == maxScore); 
+            return ((leftTime <= 0) || (score == maxScore)); 
         }
 
         // Use this for initialization
@@ -131,7 +133,7 @@ namespace FromScratch
 
         private void ShowScoreAndTime()
         {
-            scoreText.text = "Score: " + score.ToString();
+            scoreText.text = "Score: " + score.ToString() + "/" + maxScore;
             timeText.text = leftTime.ToString();
         }
 
@@ -161,6 +163,7 @@ namespace FromScratch
                     {
                         if (CheckIsGameEnd())
                         {
+                            print(CheckIsGameEnd());
                             SystemControllerInServer.Instance.EndPlaying();
                         }
                     }

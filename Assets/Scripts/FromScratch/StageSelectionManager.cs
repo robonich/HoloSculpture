@@ -136,12 +136,12 @@ namespace FromScratch
 
             foreach(var name in playersSelection["stage1"])
             {
-                Stage1Text.text = name + "\n";
+                Stage1Text.text += name + "\n";
             }
 
             foreach(var name in playersSelection["stage2"])
             {
-                Stage2Text.text = name + "\n";
+                Stage2Text.text += name + "\n";
             }
         }
         
